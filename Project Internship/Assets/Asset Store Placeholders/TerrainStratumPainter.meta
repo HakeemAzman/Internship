@@ -1,13 +1,12 @@
 fileFormatVersion: 2
-guid: ff10b533e92f7ed4193039d5a8a1ea8c
+guid: 21dae4089526ce64785e19287c1b5910
 labels:
 - Terrain
 - Paint
 - Height
 folderAsset: yes
-timeCreated: 1460088516
-licenseType: Store
 DefaultImporter:
+  externalObjects: {}
   userData: 
   assetBundleName: 
   assetBundleVariant: 
