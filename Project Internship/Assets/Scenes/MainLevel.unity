@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.4508772, g: 0.50078, b: 0.5745902, a: 1}
+  m_IndirectSpecularColor: {r: 0.45087707, g: 0.5007796, b: 0.57458967, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -803,9 +803,9 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
---- !u!70 &1005356251
-CapsuleCollider2D:
+  m_Constraints: 4
+--- !u!61 &1005356251
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -817,9 +817,19 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.28233367, y: 0.7616363}
-  m_Size: {x: 4.749393, y: 1.5694909}
-  m_Direction: 0
+  m_Offset: {x: 0.30334473, y: 0.77938616}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 4.640136, y: 1.5929444}
+  m_EdgeRadius: 0
 --- !u!114 &1005356252
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -848,16 +858,16 @@ MonoBehaviour:
       rgba: 0
     renderers: []
   hitEffectPrefab: {fileID: 0}
-  jumpAcceleration: 6
-  moveAcceleration: 20
+  jumpAcceleration: 5
+  moveAcceleration: 500
   decelerationFactor: 1
-  maxLandSpeed: 5
+  maxLandSpeed: 50
   airControlFactor: 0.5
   movementCollider: {fileID: 1005356251}
   whatIsGround:
     serializedVersion: 2
     m_Bits: 512
-  groundLineOffset: 0.02
+  groundLineOffset: 0.1
 --- !u!114 &1005356254
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -11,7 +11,7 @@ using System.Collections.Generic;
  * - Tracking of whether the character is on the ground on in the air.
 */
 
-[RequireComponent(typeof(Rigidbody2D), typeof(CapsuleCollider2D))]
+[RequireComponent(typeof(Rigidbody2D), typeof(BoxCollider2D))]
 public abstract class Platformer : Actor {
 
     protected bool inAir = true; // Tracks whether this is touching the ground.
@@ -27,7 +27,7 @@ public abstract class Platformer : Actor {
     public float decelerationFactor = 1f; // How fast do you want the main character to decelerate when we stop moving?
     public float maxLandSpeed = 5f; // Represents the maximum speed you can accelerate to with directional movement.
     public float airControlFactor = 0.5f; // How much movement control do you have when in the air?
-    public CapsuleCollider2D movementCollider;
+    public BoxCollider2D movementCollider;
     public LayerMask whatIsGround;
     public float groundLineOffset = 0.02f; // How far down does the line to find the ground extend?
 
@@ -144,7 +144,7 @@ public abstract class Platformer : Actor {
     // Use this for initialization
     protected override void Init () {
         base.Init();
-        if(movementCollider == null) movementCollider = GetComponent<CapsuleCollider2D>();
+        if(movementCollider == null) movementCollider = GetComponent<BoxCollider2D>();
 	}
 
     protected override void Autofill() {
