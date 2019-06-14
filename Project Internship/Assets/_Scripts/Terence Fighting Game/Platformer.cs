@@ -175,7 +175,7 @@ public abstract class Platformer : Actor {
         if(!IsAlive()) return 0;
         if(!CanMove()) return 0;
         
-        Vector2 localMoveVector = transform.InverseTransformDirection(rigidbody.velocity);
+        Vector2 localMoveVector = transform.TransformDirection(rigidbody.velocity);
 
         // When button is unpressed, slow the character down.
         if(Mathf.Approximately(dir,0)) {
@@ -207,7 +207,7 @@ public abstract class Platformer : Actor {
 
         }
 
-        rigidbody.velocity = transform.TransformDirection(localMoveVector);
+        rigidbody.velocity = transform.InverseTransformDirection(localMoveVector);
 
         HandleMovementFacing(dir);
         return dir;

@@ -7,7 +7,8 @@ public class Thief : Platformer {
         base.Init();
     }
 
-    void FixedUpdate() {
+    void FixedUpdate()
+    {
         base.UpdateInAir();
     }
 }

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.45087707, g: 0.5007796, b: 0.57458967, a: 1}
+  m_IndirectSpecularColor: {r: 0.4508772, g: 0.50078, b: 0.5745902, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -123,6 +123,7 @@ GameObject:
   - component: {fileID: 18404916}
   - component: {fileID: 18404915}
   - component: {fileID: 18404914}
+  - component: {fileID: 18404917}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -188,12 +189,25 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 18404913}
   m_LocalRotation: {x: 0.15270211, y: -0.0033647886, z: 0.00034996727, w: 0.98826647}
-  m_LocalPosition: {x: 0.7623635, y: 0.529204, z: -2.76485}
+  m_LocalPosition: {x: 0.78, y: 1.94, z: -4.35}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1237335584}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 17.567001, y: -0.393, z: -0.020000001}
+--- !u!114 &18404917
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 18404913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33713322a90b0b44aa1095cf481defac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 1005356249}
 --- !u!1 &53057392
 GameObject:
   m_ObjectHideFlags: 0
@@ -445,7 +459,6 @@ GameObject:
   - component: {fileID: 213402757}
   - component: {fileID: 213402756}
   - component: {fileID: 213402755}
-  - component: {fileID: 213402754}
   m_Layer: 9
   m_Name: Cube (5)
   m_TagString: Untagged
@@ -453,32 +466,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!61 &213402754
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 213402753}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 0.99999994}
-  m_EdgeRadius: 0
 --- !u!23 &213402755
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -859,7 +846,7 @@ MonoBehaviour:
     renderers: []
   hitEffectPrefab: {fileID: 0}
   jumpAcceleration: 5
-  moveAcceleration: 500
+  moveAcceleration: 4000
   decelerationFactor: 1
   maxLandSpeed: 50
   airControlFactor: 0.5
@@ -1013,7 +1000,6 @@ GameObject:
   - component: {fileID: 1158710018}
   - component: {fileID: 1158710017}
   - component: {fileID: 1158710016}
-  - component: {fileID: 1158710015}
   m_Layer: 9
   m_Name: Cube (7)
   m_TagString: Untagged
@@ -1021,32 +1007,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!61 &1158710015
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1158710014}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 0.99999994}
-  m_EdgeRadius: 0
 --- !u!23 &1158710016
 MeshRenderer:
   m_ObjectHideFlags: 0
