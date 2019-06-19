@@ -6,12 +6,14 @@ public class PlayerSwitch : MonoBehaviour
 {
     [SerializeField] GameObject Player_Thief, Player_Gladiator;
 
-    public bool isThief = true;
+    [SerializeField] bool isThief = true;
+
+    public bool canSwitch;
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("Switch"))
+        if (Input.GetButtonDown("Switch") && canSwitch)
         {
             if (isThief)
             {
@@ -22,7 +24,7 @@ public class PlayerSwitch : MonoBehaviour
             {
                 Player_Thief.transform.position = Player_Gladiator.transform.position;
                 isThief = true;
-            }          
+            }        
         }
 
         Characters();
@@ -39,7 +41,6 @@ public class PlayerSwitch : MonoBehaviour
         {
             Player_Thief.SetActive(false);
             Player_Gladiator.SetActive(true);
-
         }
     }
 }
