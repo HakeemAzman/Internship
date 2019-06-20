@@ -7,7 +7,7 @@ public class Lamp : MonoBehaviour
     #region Variables
     [SerializeField] PlayerSwitch ps;
 
-    [SerializeField] GameObject Start_Cutscene, lamp;
+    [SerializeField] GameObject Start_Cutscene, lamp, fireparticle, fireparticle2, fireparticle3;
 
     [SerializeField] Light Spotlight_lamp;
 
@@ -34,7 +34,19 @@ public class Lamp : MonoBehaviour
         lamp.GetComponent<MeshRenderer>().enabled = false;
         Spotlight_lamp.gameObject.GetComponent<Light>().color = Color.red;
 
-        yield return new WaitForSeconds(2.5f);
+        yield return new WaitForSeconds(1f);
+
+        fireparticle.SetActive(false);
+
+        yield return new WaitForSeconds(0.5f);
+
+        fireparticle2.SetActive(false);
+
+        yield return new WaitForSeconds(0.5f);
+
+        fireparticle3.SetActive(false);
+        
+        yield return new WaitForSeconds(0.5f);
 
         rocks.gameObject.GetComponent<Animator>().Play(rockFall);
 
