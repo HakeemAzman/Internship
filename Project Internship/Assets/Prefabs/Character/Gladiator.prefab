@@ -76,7 +76,7 @@ GameObject:
   - component: {fileID: 3260278720016054804}
   - component: {fileID: 3260278720016054805}
   - component: {fileID: 3260278720016054806}
-  - component: {fileID: 8348032338025541273}
+  - component: {fileID: 4752701472550044306}
   m_Layer: 0
   m_Name: Gladiator
   m_TagString: Player
@@ -185,7 +185,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   groundLineOffset: 0.02
---- !u!114 &8348032338025541273
+--- !u!114 &4752701472550044306
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -194,11 +194,27 @@ MonoBehaviour:
   m_GameObject: {fileID: 3260278720016138446}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7779e7620693eeb4a8759f2e76113852, type: 3}
+  m_Script: {fileID: 11500000, guid: 9cf31933590979742afaf2ae5887b55d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   controlled: {fileID: 3260278720016054806}
-  input: []
+  input:
+  - name: Light
+    buttons:
+    - LightAttack
+    movementInput: {x: 0, y: 0}
+  - name: ForwardHeavy
+    buttons:
+    - HeavyAttack
+    movementInput: {x: 1, y: 0}
+  - name: Heavy
+    buttons:
+    - HeavyAttack
+    movementInput: {x: 0, y: 0}
+  - name: Kick
+    buttons:
+    - Kick
+    movementInput: {x: 0, y: 0}
   doubleTapWindow: 0.5
 --- !u!1001 &3260278718737098628
 PrefabInstance:

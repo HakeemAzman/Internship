@@ -17,7 +17,7 @@ public class PlayerController : Controller {
     }
 
     void Update() {
-        Thief c = controlled as Thief;
+        Platformer c = controlled as Platformer;
 
         if(Input.GetButtonDown("Jump")) {
             c.Jump();
@@ -67,7 +67,7 @@ public class PlayerController : Controller {
     // Call this in Update in a child class to enable attacks.
     protected virtual void HandleFireInput() {
         
-        Thief c = controlled as Thief;
+        Platformer c = controlled as Platformer;
 
         // Loop through all attacks to see if we are pressing a button that activates any one of them.
         for(int i=0;i<input.Length;i++) {
@@ -106,7 +106,7 @@ public class PlayerController : Controller {
 
         // Check if the input is keyed if this input has directional requirements.
         if(input.x != 0) {
-            Thief c = controlled as Thief;
+            Platformer c = controlled as Platformer;
             if(!c) return false;
 
             if(Mathf.Sign(c.GetMovementFacing() * input.x) != Mathf.Sign(v.x))

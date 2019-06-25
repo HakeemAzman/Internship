@@ -12,6 +12,6 @@ public class Gladiator : Platformer
 
     void FixedUpdate()
     {
-        base.UpdateInAir();   
+        base.UpdateInAir();
     }
 }

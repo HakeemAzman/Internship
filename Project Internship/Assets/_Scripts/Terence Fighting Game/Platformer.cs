@@ -30,6 +30,7 @@ public abstract class Platformer : Actor {
     public BoxCollider2D movementCollider;
     public LayerMask whatIsGround;
     public float groundLineOffset = 0.02f; // How far down does the line to find the ground extend?
+    public Vector3 forwardDirection = new Vector3(1,0,0);
 
     // Values that are applied to Platformer to affect movement parameters.
     [System.Serializable]
@@ -224,8 +225,20 @@ public abstract class Platformer : Actor {
         // Handle sprite reflection.
         if (dir != 0) {
             Vector3 scale = transform.localScale;
-            scale.x = Mathf.Abs(scale.x);
-            if (dir < 0) scale.x *= -1;
+
+            if(!Mathf.Approximately(forwardDirection.x,0)) {
+                scale.x = Mathf.Abs(scale.x) * forwardDirection.x;
+                if (dir < 0) scale.x *= -1;
+            }
+            if(!Mathf.Approximately(forwardDirection.y,0)) {
+                scale.y = Mathf.Abs(scale.y) * forwardDirection.y;
+                if (dir < 0) scale.y *= -1;
+            }
+            if(!Mathf.Approximately(forwardDirection.z,0)) {
+                scale.z = Mathf.Abs(scale.z) * forwardDirection.z;
+                if (dir < 0) scale.z *= -1;
+            }
+
             transform.localScale = scale;
         }
     }
