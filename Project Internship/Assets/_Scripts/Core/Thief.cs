@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Thief : Platformer {
-    void Start() {
+public class Thief : Protagonist {
+
+    void Awake() {
         base.Init();
     }
 
-    void FixedUpdate()
-    {
+    void FixedUpdate() {
         base.UpdateInAir();
     }
+    
 }

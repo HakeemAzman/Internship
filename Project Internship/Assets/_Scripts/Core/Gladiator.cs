@@ -2,16 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Gladiator : Platformer
-{
+public class Gladiator : Protagonist {
     // Start is called before the first frame update
-    void Start()
-    {
+    void Awake() {
         base.Init();
     }
 
-    void FixedUpdate()
-    {
+    void FixedUpdate() {
         base.UpdateInAir();
     }
 }

@@ -19,6 +19,11 @@ public class PlayerController : Controller {
     void Update() {
         Platformer c = controlled as Platformer;
 
+        if(Input.GetButtonDown("Switch")) {
+            Protagonist p = controlled as Protagonist;
+            if(p) controlled = p.Switch();
+        }
+
         if(Input.GetButtonDown("Jump")) {
             c.Jump();
         } else if (Input.GetButtonUp("Jump")) {
@@ -31,12 +36,6 @@ public class PlayerController : Controller {
             }
 
         }
-        /*
-        if(Input.GetButtonDown("Ready")) {
-            Protagonist p = controlled as Protagonist;
-            if(p) p.Ready();
-        }*/
-
 
         float moveDir = Input.GetAxis("Horizontal");
         if(!Mathf.Approximately(moveDir,0))

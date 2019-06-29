@@ -5,7 +5,7 @@ using UnityEngine;
 public class Lamp : MonoBehaviour
 {
     #region Variables
-    [SerializeField] PlayerSwitch ps;
+    [SerializeField] Protagonist ps;
 
     [SerializeField] GameObject Start_Cutscene, lamp, fireparticle, fireparticle2, fireparticle3;
 
@@ -22,7 +22,7 @@ public class Lamp : MonoBehaviour
     {
         if(collision.gameObject.tag == "Player")
         {
-            ps.gameObject.GetComponent<PlayerSwitch>().canSwitch = true;
+            ps.gameObject.GetComponent<Protagonist>().canSwitch = true;
             StartCoroutine(StartFirstCutscene());
 
         }
