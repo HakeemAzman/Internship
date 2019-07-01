@@ -11,9 +11,8 @@ GameObject:
   - component: {fileID: 7902458855326795463}
   - component: {fileID: 7902458856306722857}
   - component: {fileID: 7902458856306722856}
-  - component: {fileID: 7902458856306722863}
   - component: {fileID: 7902458856306722861}
-  - component: {fileID: 6910812042447374327}
+  - component: {fileID: 547744011585549774}
   m_Layer: 0
   m_Name: Protagonist_V2
   m_TagString: Player
@@ -84,46 +83,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.78677356, y: 2.0812092}
   m_EdgeRadius: 0
---- !u!114 &7902458856306722863
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7902458855326733757}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 494865a7a3d1825488f78629ba68bf79, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  invulnerable: 0
-  health: 100
-  maxHealth: 100
-  deathTime: 5
-  deathFadeTime: 1.89
-  damageFeedback:
-    enabled: 0
-    duration: 0
-    colour:
-      serializedVersion: 2
-      rgba: 0
-    originalColour:
-      serializedVersion: 2
-      rgba: 0
-    renderers: []
-  hitEffectPrefab: {fileID: 0}
-  jumpAcceleration: 8
-  moveAcceleration: 100
-  decelerationFactor: 1
-  maxLandSpeed: 10
-  airControlFactor: 0.5
-  movementCollider: {fileID: 7902458856306722856}
-  whatIsGround:
-    serializedVersion: 2
-    m_Bits: 512
-  groundLineOffset: 0.1
-  flipDirection: {x: 1, y: 0, z: 0}
-  turnSpeed: 720
 --- !u!114 &7902458856306722861
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -136,19 +95,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cf31933590979742afaf2ae5887b55d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controlled: {fileID: 7902458856306722863}
+  controlled: {fileID: 547744011585549774}
   input: []
   doubleTapWindow: 0.5
---- !u!114 &6910812042447374327
+--- !u!114 &547744011585549774
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7902458855326733757}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 95699f4b44bc54d4faa5170807a93289, type: 3}
+  m_Script: {fileID: 11500000, guid: 9b3e594216fee7349bfb8e26a1e7d53e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   invulnerable: 0
@@ -157,28 +116,50 @@ MonoBehaviour:
   deathTime: 5
   deathFadeTime: 1.89
   damageFeedback:
-    enabled: 0
-    duration: 0
+    enabled: 1
+    duration: 0.12
     colour:
       serializedVersion: 2
-      rgba: 0
+      rgba: 4278190335
     originalColour:
       serializedVersion: 2
-      rgba: 0
+      rgba: 4294967295
     renderers: []
   hitEffectPrefab: {fileID: 0}
   jumpAcceleration: 6
-  moveAcceleration: 80
+  moveAcceleration: 20
   decelerationFactor: 1
-  maxLandSpeed: 2
+  maxLandSpeed: 5
   airControlFactor: 0.5
-  movementCollider: {fileID: 7902458856306722856}
+  movementCollider: {fileID: 0}
   whatIsGround:
     serializedVersion: 2
     m_Bits: 512
-  groundLineOffset: 0.1
+  groundLineOffset: 0.02
   flipDirection: {x: 1, y: 0, z: 0}
-  turnSpeed: 480
+  turnSpeed: 720
+  canSwitch: 0
+  forms:
+  - name: Thief
+    mesh: {fileID: 7902458854404378902}
+    movementModifier:
+      maxLandSpeedMultiplier: 1
+      moveAccelerationMultiplier: 1
+      decelerationMultiplier: 1
+      jumpAccelerationMultiplier: 1
+      airControlFactorMultiplier: 1
+      duration: 1
+      fullDisable: 0
+  - name: Gladiator
+    mesh: {fileID: 4524569642933095650}
+    movementModifier:
+      maxLandSpeedMultiplier: 0.34
+      moveAccelerationMultiplier: 1
+      decelerationMultiplier: 1
+      jumpAccelerationMultiplier: 0
+      airControlFactorMultiplier: 1
+      duration: 1
+      fullDisable: 0
 --- !u!1001 &4524569642933062210
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -256,6 +237,12 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 4acb7864e1293ad4198af51914d1834e, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 43b17a0a65451464390cc36e56ffb96d, type: 3}
+--- !u!1 &4524569642933095650 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100000, guid: 43b17a0a65451464390cc36e56ffb96d,
+    type: 3}
+  m_PrefabInstance: {fileID: 4524569642933062210}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4524569642933194946 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: 43b17a0a65451464390cc36e56ffb96d,
@@ -339,6 +326,12 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 9bc35e139515ffd449d13db633a8d882, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 43b17a0a65451464390cc36e56ffb96d, type: 3}
+--- !u!1 &7902458854404378902 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100000, guid: 43b17a0a65451464390cc36e56ffb96d,
+    type: 3}
+  m_PrefabInstance: {fileID: 7902458854404282294}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7902458854404672822 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: 43b17a0a65451464390cc36e56ffb96d,

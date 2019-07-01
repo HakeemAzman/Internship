@@ -21,7 +21,7 @@ public class PlayerController : Controller {
 
         if(Input.GetButtonDown("Switch")) {
             Protagonist p = controlled as Protagonist;
-            if(p) controlled = p.Switch();
+            if(p) p.Switch();
         }
 
         if(Input.GetButtonDown("Jump")) {
