@@ -9,6 +9,13 @@ public class Protagonist : Pawn {
 
     public bool canSwitch = false;
 
+    GameObject[] G_Platforms;
+
+    private void Start()
+    {
+        G_Platforms = GameObject.FindGameObjectsWithTag("G_Plat");
+    }
+
     protected override void Init() {
         base.Init();
         if(this is Thief) alternateForm = GetComponent<Gladiator>();
@@ -25,9 +32,19 @@ public class Protagonist : Pawn {
         if(this is Thief) {
             thiefMesh.SetActive(false);
             gladiatorMesh.SetActive(true);
+
+            foreach (GameObject GP in G_Platforms)
+            {
+                GP.GetComponent<MeshRenderer>().enabled = true;
+            }
         } else {
             thiefMesh.SetActive(true);
             gladiatorMesh.SetActive(false);
+
+            foreach (GameObject GP in G_Platforms)
+            {
+                GP.GetComponent<MeshRenderer>().enabled = false;
+            }
         }
 
         alternateForm.health = health;

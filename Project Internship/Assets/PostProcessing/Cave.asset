@@ -101,10 +101,10 @@ MonoBehaviour:
     m_Enabled: 1
     m_Settings:
       bloom:
-        intensity: 0.67
-        threshold: 0.76
-        softKnee: 0.96
-        radius: 7
+        intensity: 0.77
+        threshold: 0.59
+        softKnee: 1
+        radius: 4.05
         antiFlicker: 1
       lensDirt:
         texture: {fileID: 0}
@@ -334,7 +334,7 @@ MonoBehaviour:
   monitors:
     currentMonitorID: 0
     refreshOnPlay: 0
-    histogramMode: 3
+    histogramMode: 1
     waveformExposure: 0.12
     waveformY: 0
     waveformR: 1
