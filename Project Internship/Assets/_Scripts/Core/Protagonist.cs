@@ -71,14 +71,15 @@ public class Protagonist : Pawn {
         AddMovementModifier("form_movement_modifier", forms[nextFormIndex].movementModifier);
 
         // Shows / hides the platforms.
-        if(nextForm.name == "Thief") {
-
+        if(nextForm.name == "Thief")
+        {
             foreach (GameObject GP in G_Platforms)
             {
                 GP.GetComponent<MeshRenderer>().enabled = true;
             }
-        } else {
-
+        }
+        else
+        {
             foreach (GameObject GP in G_Platforms)
             {
                 GP.GetComponent<MeshRenderer>().enabled = false;
