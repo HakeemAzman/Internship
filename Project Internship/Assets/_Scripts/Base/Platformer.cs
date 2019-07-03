@@ -263,6 +263,10 @@ public abstract class Platformer : Actor {
                 RaycastHit2D g = Physics2D.Raycast(h.point, Physics2D.gravity, 1f, whatIsGround);
                 groundNormal = g.normal;
                 platform = h.collider;
+
+                //Show the Parent Mesh
+                //platform.GetComponentInParent<MeshRenderer>().enabled = true;
+                
             }
         }
     }

@@ -43,7 +43,6 @@ public class Protagonist : Pawn {
         // Apply effects of current form.
         Switch(0);
 
-        G_Platforms = GameObject.FindGameObjectsWithTag("G_Plat");
     }
 
     void FixedUpdate() {
@@ -69,22 +68,23 @@ public class Protagonist : Pawn {
         // Apply movement modifier of new form
         // (the old one is automatically overwritten as they have the same name).
         AddMovementModifier("form_movement_modifier", forms[nextFormIndex].movementModifier);
-
+        
         // Shows / hides the platforms.
-        if(nextForm.name == "Thief")
+        if (nextForm.name == "Thief")
         {
+            G_Platforms = GameObject.FindGameObjectsWithTag("G_Plat");
+
             foreach (GameObject GP in G_Platforms)
             {
-                GP.GetComponent<MeshRenderer>().enabled = true;
+                GP.GetComponent<MeshRenderer>().enabled = false;
             }
         }
         else
         {
             foreach (GameObject GP in G_Platforms)
             {
-                GP.GetComponent<MeshRenderer>().enabled = false;
+                GP.GetComponent<MeshRenderer>().enabled = true;
             }
-
         }
 
         currentFormIndex = nextFormIndex;

@@ -40,7 +40,6 @@ public class PlayerController : Controller {
         float moveDir = Input.GetAxis("Horizontal");
         if(!Mathf.Approximately(moveDir,0))
         {
-
             if(!firstHorizontalPress) {
                 firstHorizontalPress = true;
                 if (lastMoveDirection == 0)
