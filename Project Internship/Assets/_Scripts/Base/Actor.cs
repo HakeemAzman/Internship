@@ -15,7 +15,7 @@ public class Actor : MonoBehaviour {
         public bool enabled;
         public float duration;
         public Color32 colour, originalColour;
-        public SpriteRenderer[] renderers;
+        public Renderer[] renderers;
     }
 
     [Header("Health")]
@@ -40,9 +40,9 @@ public class Actor : MonoBehaviour {
 
     // Fills up any variables that we need to fill.
     protected virtual void Autofill() {
-        SpriteRenderer[] sr = GetComponents<SpriteRenderer>(), 
-                         children = GetComponentsInChildren<SpriteRenderer>(true);
-        List<SpriteRenderer> r = new List<SpriteRenderer>();
+        Renderer[] sr = GetComponents<Renderer>(), 
+                         children = GetComponentsInChildren<Renderer>(true);
+        List<Renderer> r = new List<Renderer>();
         r.AddRange(sr);
         r.AddRange(children);
         damageFeedback.enabled = true;
@@ -102,14 +102,18 @@ public class Actor : MonoBehaviour {
 
     // For handling the hit flash when a character receives damage.
     protected virtual IEnumerator DamageFlash(int amount, GameObject instigator = null, Vector3? location = null) {
-        foreach(SpriteRenderer sr in damageFeedback.renderers)
-            sr.color = damageFeedback.colour;
+        foreach(Renderer sr in damageFeedback.renderers) {
+            if(sr is SpriteRenderer) (sr as SpriteRenderer).color = damageFeedback.colour;
+            else sr.material.color = damageFeedback.colour;
+        }
         yield return new WaitForSeconds(damageFeedback.duration);
-        foreach(SpriteRenderer sr in damageFeedback.renderers)
-            sr.color = damageFeedback.originalColour;
+        foreach(Renderer sr in damageFeedback.renderers) {
+            if(sr is SpriteRenderer) (sr as SpriteRenderer).color = damageFeedback.originalColour;
+            else sr.material.color = damageFeedback.originalColour;
+        }
     }
 
-    protected virtual IEnumerator DeathFade(SpriteRenderer[] objects, float delay, float duration) {
+    protected virtual IEnumerator DeathFade(Renderer[] objects, float delay, float duration) {
         yield return new WaitForSeconds(delay); // Wait before destroying.
 
         // Fade this object away.
@@ -117,8 +121,14 @@ public class Actor : MonoBehaviour {
         float dur = duration, opacity;
         while(dur > 0) {
             opacity = dur / deathFadeTime;
-            foreach(SpriteRenderer sr in objects)
-                sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, opacity);
+            foreach(Renderer sr in objects) {
+                if(sr is SpriteRenderer) {
+                    SpriteRenderer src = sr as SpriteRenderer;
+                    src.color = new Color(src.color.r, src.color.g, src.color.b, opacity);
+                } else {
+                    sr.material.color = new Color(sr.material.color.r, sr.material.color.g, sr.material.color.b, opacity);
+                }
+            }
             dur -= Time.deltaTime;
             yield return w;
         }
