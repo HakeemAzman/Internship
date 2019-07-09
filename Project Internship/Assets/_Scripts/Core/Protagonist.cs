@@ -2,10 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Protagonist : Pawn {
-
+public class Protagonist : Pawn
+{   
     [Header("Protagonist")]
     public bool canSwitch = false;
+    Rigidbody2D rb2D;
+
+    [Header("Knockback Settings")]
+    public float Knockback_Amount;
+    [HideInInspector] public bool isKnockbackRight;
 
     GameObject[] G_Platforms;
 
@@ -43,6 +48,7 @@ public class Protagonist : Pawn {
         // Apply effects of current form.
         Switch(0);
 
+        rb2D = gameObject.GetComponent<Rigidbody2D>();
     }
 
     void FixedUpdate() {
@@ -89,5 +95,22 @@ public class Protagonist : Pawn {
 
         currentFormIndex = nextFormIndex;
         return currentFormIndex;
+    }
+
+    private void OnTriggerEnter2D(Collider2D enter)
+    {
+        if(enter.gameObject.tag == "Enemy")
+        {
+            Knockback();
+        }
+    }
+
+    void Knockback()
+    {
+        if (isKnockbackRight)
+            rb2D.velocity = new Vector2(-Knockback_Amount, Knockback_Amount + 0.2f);
+
+        if (!isKnockbackRight)
+            rb2D.velocity = new Vector2(Knockback_Amount, Knockback_Amount + 0.2f);
     }
 }

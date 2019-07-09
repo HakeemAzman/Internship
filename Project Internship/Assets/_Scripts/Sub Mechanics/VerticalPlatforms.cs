@@ -8,11 +8,6 @@ public class VerticalPlatforms : MonoBehaviour
     [SerializeField] float Platform_Speed;
     bool isGoingUp = true, startMoving = false;
 
-    private void Start()
-    {
-        yAxis_Min = transform.position;
-    }
-
     // Update is called once per frame
     void FixedUpdate()
     {
@@ -20,12 +15,12 @@ public class VerticalPlatforms : MonoBehaviour
 
         if(startMoving)
         {
-            if (transform.position == yAxis_Min) isGoingUp = true;
-            else if (transform.position == yAxis_Max) isGoingUp = false;
+            if (transform.position == yAxis_Min) isGoingUp = true; //If current position equals minimum height it will go up
+            else if (transform.position == yAxis_Max) isGoingUp = false; //If current position equals maximum height it will go down
 
-            if (isGoingUp) transform.position = Vector3.MoveTowards(transform.position, yAxis_Max, step);
+            if (isGoingUp) transform.position = Vector3.MoveTowards(transform.position, yAxis_Max, step); //Where to stop
             else
-                transform.position = Vector3.MoveTowards(transform.position, yAxis_Min, step);
+                transform.position = Vector3.MoveTowards(transform.position, yAxis_Min, step); //Where to stop
         }
     }
 
