@@ -7,6 +7,13 @@ public class VerticalPlatforms : MonoBehaviour
     [SerializeField] Vector3 yAxis_Min, yAxis_Max;
     [SerializeField] float Platform_Speed;
     bool isGoingUp = true, startMoving = false;
+    [SerializeField] bool isMin;
+
+    private void Start()
+    {
+        if (isMin) yAxis_Min = transform.position;
+        if(!isMin) yAxis_Max = transform.position;
+    }
 
     // Update is called once per frame
     void FixedUpdate()
