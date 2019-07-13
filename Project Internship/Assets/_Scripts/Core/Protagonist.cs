@@ -103,6 +103,11 @@ public class Protagonist : Pawn
         {
             Knockback();
         }
+
+        if(enter.gameObject.tag == "Death")
+        {
+            print("Dead");
+        }
     }
 
     void Knockback()

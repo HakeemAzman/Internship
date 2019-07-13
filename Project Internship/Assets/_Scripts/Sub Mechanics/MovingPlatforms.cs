@@ -6,10 +6,15 @@ public class MovingPlatforms : MonoBehaviour
 {
     [SerializeField] GameObject Axis_Min, Axis_Max;
     [SerializeField] float Platform_Speed;
+    [SerializeField] bool startMoving = false; //Start Moving on Awake
     bool isMin = true;
-    [SerializeField] bool startMoving = false;
 
-    // Update is called once per frame
+    [Header("Death Collider")]
+    
+    [SerializeField] GameObject Death_Collider;
+    [SerializeField] float Guage;
+    [SerializeField] bool isSwitch;
+
     void FixedUpdate()
     {
         float step = Platform_Speed * Time.deltaTime;
@@ -24,8 +29,22 @@ public class MovingPlatforms : MonoBehaviour
             else
                 transform.position = Vector3.MoveTowards(transform.position, Axis_Min.transform.position, step);
         }
+
+        if (isSwitch) //Controls more or less than
+        {
+            if (transform.position.x <= Guage) Death_Collider.SetActive(true);
+            else
+                Death_Collider.SetActive(false);
+        }
+        else
+        {
+            if (transform.position.x >= Guage) Death_Collider.SetActive(true);
+            else
+                Death_Collider.SetActive(false);
+        }
     }
 
+    #region Set Parent
     private void OnTriggerEnter2D(Collider2D enter)
     {
         if (enter.gameObject.tag == "Player")
@@ -42,4 +61,5 @@ public class MovingPlatforms : MonoBehaviour
             exit.gameObject.transform.SetParent(null);
         }
     }
+    #endregion
 }
