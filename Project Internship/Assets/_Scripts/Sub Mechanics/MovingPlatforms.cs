@@ -9,12 +9,6 @@ public class MovingPlatforms : MonoBehaviour
     [SerializeField] bool startMoving = false; //Start Moving on Awake
     bool isMin = true;
 
-    [Header("Death Collider")]
-    
-    [SerializeField] GameObject Death_Collider;
-    [SerializeField] float Guage;
-    [SerializeField] bool isSwitch;
-
     void FixedUpdate()
     {
         float step = Platform_Speed * Time.deltaTime;
@@ -28,19 +22,6 @@ public class MovingPlatforms : MonoBehaviour
             if (isMin) transform.position = Vector3.MoveTowards(transform.position, Axis_Max.transform.position, step); //Vector3.MoveTowards(transform.position, yAxis_Max, step); //Where to stop
             else
                 transform.position = Vector3.MoveTowards(transform.position, Axis_Min.transform.position, step);
-        }
-
-        if (isSwitch) //Controls more or less than
-        {
-            if (transform.position.x <= Guage) Death_Collider.SetActive(true);
-            else
-                Death_Collider.SetActive(false);
-        }
-        else
-        {
-            if (transform.position.x >= Guage) Death_Collider.SetActive(true);
-            else
-                Death_Collider.SetActive(false);
         }
     }
 
