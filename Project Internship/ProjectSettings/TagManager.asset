@@ -8,6 +8,8 @@ TagManager:
   - G_Plat
   - Enemy
   - Death
+  - Gem
+  - Spawner
   layers:
   - Default
   - TransparentFX

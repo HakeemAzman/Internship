@@ -75,7 +75,12 @@ public class Actor : MonoBehaviour {
 
         // Handle player dying.
         if (health <= 0) {
-            if(isAlive) Death(instigator);
+            if (isAlive)
+            {
+                //Death(instigator); Disabled this so I can spawn my player at the last checkpoint
+                Protagonist p = GetComponent<Protagonist>();
+                transform.position = p.Current_SpawnPoint;
+            }
         } else if(health > maxHealth) health = maxHealth;
 
         return amount;
@@ -87,7 +92,7 @@ public class Actor : MonoBehaviour {
         isAlive = false;
         health = 0;
         Destroy(gameObject,deathTime);
-        if(deathFadeTime > 0)
+        if (deathFadeTime > 0)
             StartCoroutine(DeathFade(damageFeedback.renderers,deathTime - deathFadeTime,deathFadeTime));
     }
 

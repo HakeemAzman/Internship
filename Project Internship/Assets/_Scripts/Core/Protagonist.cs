@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Protagonist : Pawn
-{   
+{
+    [Header("Score")]
+    [SerializeField] int Gems_Collected;
+
     [Header("Protagonist")]
     public bool canSwitch = false;
     Rigidbody2D rb2D;
@@ -11,6 +14,9 @@ public class Protagonist : Pawn
     [Header("Knockback Settings")]
     public float Knockback_Amount;
     [HideInInspector] public bool isKnockbackRight;
+
+    [Header("Spawn Points")]
+    public Vector3 Current_SpawnPoint;
 
     GameObject[] G_Platforms;
 
@@ -20,6 +26,7 @@ public class Protagonist : Pawn
         public GameObject mesh;
         public MovementModifier movementModifier;
     }
+
     public Form[] forms;
     protected int currentFormIndex;
 
@@ -99,23 +106,40 @@ public class Protagonist : Pawn
 
     private void OnTriggerEnter2D(Collider2D enter)
     {
-        if(enter.gameObject.tag == "Enemy")
+        if(enter.CompareTag("Enemy"))
         {
             Knockback();
+            Damage(1);
         }
 
-        if(enter.gameObject.tag == "Death")
+        if(enter.CompareTag("Death"))
         {
-            print("Dead");
+            Damage(maxHealth);
+        }
+
+        if(enter.CompareTag("Gem"))
+        {
+            Gems_Collected++;
+            Destroy(enter.gameObject);
+        }
+
+        if(enter.CompareTag("Spawner"))
+        {
+            Current_SpawnPoint = enter.gameObject.transform.position;
+            enter.gameObject.GetComponentInChildren<Light>().color = Color.green;
+            enter.gameObject.GetComponent<BoxCollider2D>().enabled = false;
         }
     }
 
     void Knockback()
     {
-        if (isKnockbackRight)
-            rb2D.velocity = new Vector2(-Knockback_Amount, Knockback_Amount + 0.2f);
+        if(health > 1)
+        {
+            if (isKnockbackRight)
+                rb2D.velocity = new Vector2(-Knockback_Amount, Knockback_Amount + 0.2f);
 
-        if (!isKnockbackRight)
-            rb2D.velocity = new Vector2(Knockback_Amount, Knockback_Amount + 0.2f);
+            if (!isKnockbackRight)
+                rb2D.velocity = new Vector2(Knockback_Amount, Knockback_Amount + 0.2f);
+        }
     }
 }

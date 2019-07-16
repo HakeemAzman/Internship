@@ -64,7 +64,7 @@ Material:
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
-    - _Emission: 1.55
+    - _Emission: 2
     - _EnvironmentLight: 0.76
     - _GlossMapScale: 1
     - _Glossiness: 0.5
@@ -80,5 +80,5 @@ Material:
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 1, g: 0.3571802, b: 0.33490568, a: 0.81960785}
+    - _Color: {r: 1, g: 0.17751966, b: 0.14509803, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}

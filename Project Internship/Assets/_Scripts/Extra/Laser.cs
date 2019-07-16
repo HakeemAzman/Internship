@@ -31,7 +31,6 @@ public class Laser : MonoBehaviour
             Laser_Beam.enabled = false;
             Essential_Holder.SetActive(false);
             
-
             Cooldown_time += Time.deltaTime;
             Active_Time = 0;
         }
