@@ -5,18 +5,22 @@ using UnityEngine;
 public class PlayerController : Controller {
 
     public float doubleTapWindow = 0.5f;
+    public bool disableInput = false;
     float lastMoveDirection; // Records the last horizontal movement direction for double taps.
     bool firstHorizontalPress = false;
 
     void Start() {
-        base.Init();
+        Init();
     }
 
     void Reset() {
-        base.Autofill();
+        Autofill();
     }
 
     void Update() {
+
+        if(disableInput) return;
+
         Platformer c = controlled as Platformer;
 
         if(Input.GetButtonDown("Switch")) {
