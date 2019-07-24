@@ -10,6 +10,8 @@ TagManager:
   - Death
   - Gem
   - Spawner
+  - LoadPrev
+  - LoadNext
   layers:
   - Default
   - TransparentFX

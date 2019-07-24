@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Protagonist : Pawn
 {
     [Header("Score")]
-    [SerializeField] int Gems_Collected;
+    [SerializeField] static int Gems_Collected;
 
     [Header("Protagonist")]
     public bool canSwitch = false;
@@ -58,7 +59,8 @@ public class Protagonist : Pawn
         rb2D = gameObject.GetComponent<Rigidbody2D>();
     }
 
-    void FixedUpdate() {
+    void FixedUpdate()
+    {
         UpdateInAir();
     }
 
@@ -120,6 +122,7 @@ public class Protagonist : Pawn
         if(enter.CompareTag("Gem"))
         {
             Gems_Collected++;
+            PlayerPrefs.SetInt("Highscore", Gems_Collected);
             Destroy(enter.gameObject);
         }
 
@@ -128,6 +131,19 @@ public class Protagonist : Pawn
             Current_SpawnPoint = enter.gameObject.transform.position;
             enter.gameObject.GetComponentInChildren<Light>().color = Color.green;
             enter.gameObject.GetComponent<BoxCollider2D>().enabled = false;
+        }
+
+        if(enter.CompareTag("LoadPrev"))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+        }
+
+        if(enter.CompareTag("LoadNext"))
+        {
+            PlayerPrefs.SetFloat("PlayerX", enter.transform.position.x);
+            PlayerPrefs.SetFloat("PlayerY", enter.transform.position.y);
+            PlayerPrefs.SetFloat("PlayerZ", enter.transform.position.z);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
     }
 
