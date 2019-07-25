@@ -19,6 +19,10 @@ public class Protagonist : Pawn
     [Header("Spawn Points")]
     public Vector3 Current_SpawnPoint;
 
+    [Header("Thief/Gladiator Animators")]
+    public Animator thiefAnim;
+    public Animator gladiatorAnim;
+
     GameObject[] G_Platforms;
 
     [System.Serializable]
@@ -35,11 +39,11 @@ public class Protagonist : Pawn
         Autofill();
         forms = new Form[2] {
             new Form() {
-                name = "Thief", mesh = transform.Find("Thief_BlockUp").gameObject,
+                name = "Thief", mesh = transform.Find("Thief").gameObject,
                 movementModifier = new MovementModifier()
             },
             new Form() {
-                name = "Gladiator", mesh = transform.Find("Gladiator_BlockUp").gameObject,
+                name = "Gladiator", mesh = transform.Find("Gladiator").gameObject,
                 movementModifier = new MovementModifier() {
                     jumpAccelerationMultiplier = 0, maxLandSpeedMultiplier = 0.34f
                 }
@@ -62,6 +66,7 @@ public class Protagonist : Pawn
     void FixedUpdate()
     {
         UpdateInAir();
+        UpdateThiefAnimator();
     }
 
     public virtual int Switch(int formIndex = -1) {
@@ -106,6 +111,7 @@ public class Protagonist : Pawn
         return currentFormIndex;
     }
 
+    #region OnTriggerEnter2D
     private void OnTriggerEnter2D(Collider2D enter)
     {
         if(enter.CompareTag("Enemy"))
@@ -146,6 +152,7 @@ public class Protagonist : Pawn
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
     }
+    #endregion
 
     void Knockback()
     {
@@ -157,5 +164,14 @@ public class Protagonist : Pawn
             if (!isKnockbackRight)
                 rb2D.velocity = new Vector2(Knockback_Amount, Knockback_Amount + 0.2f);
         }
+    }
+
+    void UpdateThiefAnimator()
+    {
+        float velocity = thiefAnim.GetComponentInParent<Rigidbody2D>().velocity.x;
+
+        if (velocity < -0.1f) velocity = 5f;
+
+        thiefAnim.GetComponent<Animator>().SetFloat("forwardSpeed", velocity);
     }
 }
