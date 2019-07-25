@@ -67,6 +67,7 @@ public class Protagonist : Pawn
     {
         UpdateInAir();
         UpdateThiefAnimator();
+        UpdateGladiatorAnimator();
     }
 
     public virtual int Switch(int formIndex = -1) {
@@ -173,5 +174,14 @@ public class Protagonist : Pawn
         if (velocity < -0.1f) velocity = 5f;
 
         thiefAnim.GetComponent<Animator>().SetFloat("forwardSpeed", velocity);
+    }
+    
+    void UpdateGladiatorAnimator()
+    {
+        float velocity = gladiatorAnim.GetComponentInParent<Rigidbody2D>().velocity.x;
+
+        if (velocity < -0.1f) velocity = 1.7f;
+
+        gladiatorAnim.GetComponent<Animator>().SetFloat("forwardSpeed", velocity);
     }
 }
