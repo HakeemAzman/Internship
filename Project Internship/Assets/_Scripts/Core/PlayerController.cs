@@ -22,23 +22,33 @@ public class PlayerController : Controller {
         if(disableInput) return;
 
         Platformer c = controlled as Platformer;
+        Protagonist pScript = GetComponent<Protagonist>();
 
-        if(Input.GetButtonDown("Switch")) {
+        if (Input.GetButtonDown("Switch")) {
             Protagonist p = controlled as Protagonist;
             if(p) p.Switch();
         }
 
         if(Input.GetButtonDown("Jump")) {
             c.Jump();
-        } else if (Input.GetButtonUp("Jump")) {
-
+            pScript.thiefAnim.SetBool("isGrounded", true);
+        } else if (Input.GetButtonUp("Jump"))
+        {
+            pScript.thiefAnim.SetBool("isGrounded", false);
             //If the player hasn't reached the peak of their jump yet
             Rigidbody2D rb = controlled.GetComponent<Rigidbody2D>();
             if (rb.velocity.y > 0) {
                 //Cut vertical velocity by half
                 rb.velocity = new Vector2 (rb.velocity.x, rb.velocity.y * 0.5f);
             }
+        }
 
+        if(Input.GetButton("Attack"))
+        {
+            pScript.gladiatorAnim.SetBool("isAttacking", true);
+        } else if (Input.GetButtonUp("Attack"))
+        {
+            pScript.gladiatorAnim.SetBool("isAttacking", false);
         }
 
         float moveDir = Input.GetAxis("Horizontal");

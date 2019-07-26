@@ -15,16 +15,18 @@ public class Lamp : MonoBehaviour
 
     [SerializeField] string rockFall, hiddenDoorMove;
     float r = 255f, g = 128f, b = 124f;
+    
+    public PlayerController pc;
     //FF807C
     #endregion
-
+        
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.gameObject.tag == "Player")
         {
             ps.gameObject.GetComponent<Protagonist>().canSwitch = true;
+            pc.GetComponent<PlayerController>().disableInput = true;
             StartCoroutine(StartFirstCutscene());
-
         }
     }
 
@@ -55,7 +57,8 @@ public class Lamp : MonoBehaviour
         hidden_door.gameObject.GetComponent<Animator>().Play(hiddenDoorMove);
 
         yield return new WaitForSeconds(2f);
-        
+
+        pc.GetComponent<PlayerController>().disableInput = false;
         Destroy(this.gameObject);
     }
 }
