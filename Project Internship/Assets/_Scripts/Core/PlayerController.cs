@@ -31,24 +31,13 @@ public class PlayerController : Controller {
 
         if(Input.GetButtonDown("Jump")) {
             c.Jump();
-            pScript.thiefAnim.SetBool("isGrounded", true);
-        } else if (Input.GetButtonUp("Jump"))
-        {
-            pScript.thiefAnim.SetBool("isGrounded", false);
+        } else if (Input.GetButtonUp("Jump")) {
             //If the player hasn't reached the peak of their jump yet
             Rigidbody2D rb = controlled.GetComponent<Rigidbody2D>();
             if (rb.velocity.y > 0) {
                 //Cut vertical velocity by half
                 rb.velocity = new Vector2 (rb.velocity.x, rb.velocity.y * 0.5f);
             }
-        }
-
-        if(Input.GetButton("Attack"))
-        {
-            pScript.gladiatorAnim.SetBool("isAttacking", true);
-        } else if (Input.GetButtonUp("Attack"))
-        {
-            pScript.gladiatorAnim.SetBool("isAttacking", false);
         }
 
         float moveDir = Input.GetAxis("Horizontal");
@@ -79,7 +68,7 @@ public class PlayerController : Controller {
     // Call this in Update in a child class to enable attacks.
     protected virtual void HandleFireInput() {
         
-        Platformer c = controlled as Platformer;
+        Protagonist c = controlled as Protagonist;
 
         // Loop through all attacks to see if we are pressing a button that activates any one of them.
         for(int i=0;i<input.Length;i++) {
@@ -106,7 +95,7 @@ public class PlayerController : Controller {
             } else continue;
 
             // If the code manages to get here, the conditions have all been met.
-           // c.ReceiveFireInput(input[i].name);
+            c.ReceiveAttackInput(input[i].name);
             
         }
     }
@@ -131,53 +120,5 @@ public class PlayerController : Controller {
 
         return true;
     }
-
-    /*
-    //Called by the parent Physics script every Update(); and receives player input.
-    protected override void ComputeVelocity()
-    {
-        Vector2 move = Vector2.zero;
-
-        move.x = Input.GetAxis("Horizontal");
-
-        if (Input.GetButtonDown("Jump") && grounded)
-        {
-            velocity.y = jumpTakeOffSpeed;
-        }
-        else if (Input.GetButtonUp("Jump"))
-        {
-            if (velocity.y > 0)
-            {
-                velocity.y = velocity.y * 0.5f;
-            }
-        }
-
-        if (Input.GetButtonDown("Crouch"))
-        {
-            animator.SetBool("isCrouching", true);
-        }
-
-        if (Input.GetButtonUp("Crouch"))
-        {
-            animator.SetBool("isCrouching", false);
-        }
-
-        if (animator.GetBool("isCrouching") && grounded)
-        {
-            move.x = 0;
-        }
-
-        // If player moves left while x scale is positive, flip the the sprite to face left and vice versa.
-        bool flipSprite = (transform.localScale.x < 0 ? (move.x > 0.01f) : (move.x < -0.01f));
-        if (flipSprite)
-        {
-            transform.localScale = new Vector2(transform.localScale.x * -1, 1);
-        }
-
-        animator.SetBool("grounded", grounded);
-        animator.SetFloat("velocityX", Mathf.Abs(velocity.x) / maxSpeed);
-
-        targetVelocity = move * maxSpeed;
-    }*/
 
 }

@@ -1,5 +1,62 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5927932166270002053
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4569876746659247558}
+  - component: {fileID: 2644064655031745363}
+  m_Layer: 11
+  m_Name: Attack-Light
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &4569876746659247558
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5927932166270002053}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.71, y: 1.04, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 8543562847308205757}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &2644064655031745363
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5927932166270002053}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!1 &7902458855326733757
 GameObject:
   m_ObjectHideFlags: 0
@@ -34,6 +91,7 @@ Transform:
   m_Children:
   - {fileID: 1686124526}
   - {fileID: 95291010}
+  - {fileID: 8543562847308205757}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -97,7 +155,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controlled: {fileID: 547744011585549774}
-  input: []
+  input:
+  - name: Attack-Light
+    buttons:
+    - Jump
+    movementInput: {x: 0, y: 0}
   doubleTapWindow: 0.5
   disableInput: 0
 --- !u!114 &547744011585549774
@@ -141,9 +203,13 @@ MonoBehaviour:
   flipDirection: {x: 1, y: 0, z: 0}
   turnSpeed: 1500
   canSwitch: 0
+  attacks:
+  - {fileID: 0}
+  hitboxes:
+  - {fileID: 2644064655031745363}
   Knockback_Amount: 5
   isKnockbackRight: 0
-  Current_SpawnPoint: {x: 0, y: 0, z: 0}
+  currentSpawnPoint: {x: 0, y: 0, z: 0}
   thiefAnim: {fileID: 1679218744}
   gladiatorAnim: {fileID: 87615830}
   forms:
@@ -183,6 +249,37 @@ CapsuleCollider2D:
   m_Offset: {x: 0.0699234, y: 1.0086302}
   m_Size: {x: 0.40104675, y: 1.2193377}
   m_Direction: 0
+--- !u!1 &8389648885183503572
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8543562847308205757}
+  m_Layer: 11
+  m_Name: Hitboxes
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8543562847308205757
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8389648885183503572}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4569876746659247558}
+  m_Father: {fileID: 7902458855326795463}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &94903350
 PrefabInstance:
   m_ObjectHideFlags: 0

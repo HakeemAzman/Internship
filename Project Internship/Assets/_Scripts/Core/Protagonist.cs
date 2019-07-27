@@ -1,24 +1,29 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Protagonist : Pawn
-{
+public class Protagonist : Pawn {
+
     [Header("Score")]
-    [SerializeField] static int Gems_Collected;
+    [SerializeField] static int gemsCollected;
 
     [Header("Protagonist")]
     public bool canSwitch = false;
     public Attack2D[] attacks = new Attack2D[1];
+    public Collider2D[] hitboxes = new Collider2D[1];
     protected Attack2D currentAttack;
+
+    // Container for <attacks>. Easier to access since its a name to attack pairing.
+    readonly Dictionary<string,Attack2D> attackData = new Dictionary<string, Attack2D>();
 
     [Header("Knockback Settings")]
     public float Knockback_Amount;
     [HideInInspector] public bool isKnockbackRight;
 
     [Header("Spawn Points")]
-    public Vector3 Current_SpawnPoint;
+    public Vector3 currentSpawnPoint;
 
     [Header("Thief/Gladiator Animators")]
     public Animator thiefAnim;
@@ -50,8 +55,16 @@ public class Protagonist : Pawn
         };
     }
 
-    private void Start() {
+    void Start() {
         Init();
+
+        // Populate the <attackData> variable, and arm its events.
+        for(int i = 0; i < attacks.Length; i++) {
+            attackData.Add(attacks[i].name, attacks[i]);
+            attacks[i].onStartup += OnAttackStartup;
+            attacks[i].onEnd += OnAttackEnded;
+            attacks[i].onDamage += OnAttackDamage;
+        }
 
         // Set the current form. If the <forms> array is not set, show an error.
         if(forms == null) Debug.LogError("Please reset the Protagonist component to fill in the Forms field.");
@@ -60,11 +73,60 @@ public class Protagonist : Pawn
         Switch(0);
     }
 
-    void FixedUpdate()
-    {
+    public override float Move(float dir = 0) {
+        // Do not allow movement if we are currently attacking.
+        if(currentAttack) return 0;
+        return base.Move(dir);
+    }
+
+    #region Attack Functionality
+    // Executes the attack.
+    public void Attack(Attack2D atk) {
+        if(currentMovementFacing == 0)
+            Debug.LogError("Can't attack because there is no facing direction.");
+
+        currentAttack = atk;
+        Quaternion direction = currentMovementFacing > 0 ? Quaternion.LookRotation(Vector3.right) : Quaternion.LookRotation(-Vector3.right);
+        atk.Execute(this, hitboxes, direction);
+    }
+
+    public void OnAttackStartup(MonoBehaviour instigator, Collider2D[] hitboxes, Quaternion direction, float attackSpeed) {
+        gladiatorAnim.SetTrigger("attack");
+    }
+
+    public void OnAttackEnded(MonoBehaviour instigator, Collider2D[] hitboxes, Quaternion direction, float attackSpeed) {
+        currentAttack = null;
+    }
+
+    public void OnAttackDamage(int amount, MonoBehaviour target, MonoBehaviour instigator, Vector3? damageLocation) {
+        Destroy(target.gameObject, 0.5f);
+    }
+
+    // Picks out the most suitable attack from a given <inputName>.
+    // For PlayerController to use.
+    public void ReceiveAttackInput(string inputName) {
+
+        // Ignore this if we are not in Gladiator form.
+        if(!gladiatorAnim.gameObject.activeInHierarchy) return;
+
+        Attack2D result = null;
+        int highestPriority = int.MinValue;
+        foreach(KeyValuePair<string,Attack2D> data in attackData) {
+            if(data.Value.inputName.Contains(inputName) && data.Value.priority > highestPriority) {
+                result = data.Value;
+                highestPriority = data.Value.priority;
+            }
+        }
+        Attack(result);
+    }
+    #endregion
+
+    void FixedUpdate() {
         UpdateInAir();
-        UpdateThiefAnimator();
-        UpdateGladiatorAnimator();
+        Debug.Log(rigidbody.velocity);
+        // The conditions prevent the code from updating the animator if GameObject is inactive.
+        if(thiefAnim.gameObject.activeInHierarchy) UpdateThiefAnimator();
+        else if(gladiatorAnim.gameObject.activeInHierarchy) UpdateGladiatorAnimator();
     }
 
     public virtual int Switch(int formIndex = -1) {
@@ -105,6 +167,12 @@ public class Protagonist : Pawn
         return currentFormIndex;
     }
 
+    // Overrides the default death behaviour.
+    public override void Death(GameObject instigator = null) {
+        //base.Death(instigator);
+        transform.position = currentSpawnPoint;
+    }
+
     #region OnTriggerEnter2D
     private void OnTriggerEnter2D(Collider2D enter) {
 
@@ -114,11 +182,11 @@ public class Protagonist : Pawn
         } else if(enter.CompareTag("Death")) {
             Damage(maxHealth);
         } else if(enter.CompareTag("Gem")) {
-            Gems_Collected++;
-            PlayerPrefs.SetInt("Highscore", Gems_Collected);
+            gemsCollected++;
+            PlayerPrefs.SetInt("Highscore", gemsCollected);
             Destroy(enter.gameObject);
         } else if(enter.CompareTag("Spawner")) {
-            Current_SpawnPoint = enter.gameObject.transform.position;
+            currentSpawnPoint = enter.gameObject.transform.position;
             enter.gameObject.GetComponentInChildren<Light>().color = Color.green;
             enter.gameObject.GetComponent<BoxCollider2D>().enabled = false;
         } else if(enter.CompareTag("LoadPrev")) {
@@ -143,16 +211,15 @@ public class Protagonist : Pawn
     }
 
     void UpdateThiefAnimator() {
-        float velocity = thiefAnim.GetComponentInParent<Rigidbody2D>().velocity.x;
-
-        if (velocity < -0.1f) velocity = 5f;
-
-        thiefAnim.GetComponent<Animator>().SetFloat("forwardSpeed", velocity);
+        float vx = rigidbody.velocity.x;
+        if (vx < -0.1f) vx = 5f;
+        thiefAnim.SetFloat("forwardSpeed", vx);
+        thiefAnim.SetBool("isGrounded",inAir);
     }
     
     void UpdateGladiatorAnimator() {
-        float velocity = gladiatorAnim.GetComponentInParent<Rigidbody2D>().velocity.x;
-        if (velocity < -0.1f) velocity = 1.7f;
-        gladiatorAnim.GetComponent<Animator>().SetFloat("forwardSpeed", velocity);
+        float vx = rigidbody.velocity.x;
+        if (vx < -0.1f) vx = 1.7f;
+        gladiatorAnim.SetFloat("forwardSpeed", vx);
     }
 }

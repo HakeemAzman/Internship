@@ -19,8 +19,8 @@ public class Attack2D : ScriptableObject {
     
     // All events related to attacks.
     public delegate void Event(MonoBehaviour instigator, Collider2D[] hitboxes, Quaternion direction, float attackSpeed);
-    public delegate void DamageEvent(int amount, MonoBehaviour instigator, Vector3 damageLocation);
-    public Event onStartup, onActive, onRecovery;
+    public delegate void DamageEvent(int amount, MonoBehaviour target, MonoBehaviour instigator = null, Vector3? damageLocation = null);
+    public Event onStartup, onActive, onRecovery, onEnd;
     public DamageEvent onDamage;
 
     [Header("Input")]
@@ -32,6 +32,7 @@ public class Attack2D : ScriptableObject {
     public float startup = 0.2f, active = 0.2f, recovery = 0.2f;
     public Movement movement; // If this attack moves the character, key in the forces here.
     public LayerMask targets; // Valid targets in layers to be hit by this attack.
+    public int priority;
 
     protected Phase phase = Phase.none;
 
@@ -48,7 +49,7 @@ public class Attack2D : ScriptableObject {
 
         // Do startup phase actions.
         phase = Phase.startup;
-        onStartup(instigator, hitboxes, direction, attackSpeed);
+        onStartup?.Invoke(instigator,hitboxes,direction,attackSpeed);
         if(movement.startup.sqrMagnitude > 0 && rb) {
             rb.velocity += (Vector2)(direction * movement.startup) * Time.fixedDeltaTime;
         }
@@ -56,7 +57,7 @@ public class Attack2D : ScriptableObject {
 
         // Do active phase actions.
         phase = Phase.active;
-        onActive(instigator, hitboxes, direction, attackSpeed);
+        onActive?.Invoke(instigator, hitboxes, direction, attackSpeed);
         if(movement.active.sqrMagnitude > 0 && rb) {
             rb.velocity += (Vector2)(direction * movement.active) * Time.fixedDeltaTime;
         }
@@ -65,12 +66,13 @@ public class Attack2D : ScriptableObject {
 
         // Do recovery phase actions.
         phase = Phase.recovery;
-        onRecovery(instigator, hitboxes, direction, attackSpeed);
+        onRecovery?.Invoke(instigator, hitboxes, direction, attackSpeed);
         if(movement.recovery.sqrMagnitude > 0 && rb) {
             rb.velocity += (Vector2)(direction * movement.recovery) * Time.fixedDeltaTime;
         }
         yield return new WaitForSeconds(recovery * f);
 
+        onEnd?.Invoke(instigator, hitboxes, direction, attackSpeed);
         phase = Phase.none;
     }
 
@@ -97,7 +99,8 @@ public class Attack2D : ScriptableObject {
                     Debug.LogError(string.Format("No hitbox assigned to {0} for {1}.", name, instigator.gameObject.name));
                     continue;
                 }
-                if(!hitboxes[h.index].enabled) continue; // If collider is disabled, skip.
+                
+                //if(!hitboxes[h.index].enabled) continue; // If collider is disabled, skip.
 
                 if(hitboxes[h.index].OverlapCollider(c,r) > 0) {
                     
@@ -106,7 +109,7 @@ public class Attack2D : ScriptableObject {
                         // Don't hit ourselves.
                         if(!col) continue;
                         if(col.gameObject == instigator.gameObject) continue;
-
+                        
                         MonoBehaviour a = col.GetComponent<MonoBehaviour>();
                         Rigidbody2D rb = col.GetComponent<Rigidbody2D>();
                         if(!a) a = col.GetComponentInParent<Actor>();
@@ -119,7 +122,7 @@ public class Attack2D : ScriptableObject {
                             bool containsKey = damaged.ContainsKey(h.instance);
                             if(!containsKey || !damaged[h.instance].Contains(a)) {
 
-                                onDamage(h.damage, instigator, damagePoint);
+                                onDamage(h.damage, a, instigator, damagePoint);
 
                                 // Handle knockback on the attacker.
                                 if(h.attackerKnockback.sqrMagnitude > 0 || h.targetKnockback.sqrMagnitude > 0) {
@@ -128,8 +131,9 @@ public class Attack2D : ScriptableObject {
 
                                     // Apply knockback to attacker.
                                     if(h.attackerKnockback.sqrMagnitude > 0) {
+                                        Rigidbody2D irb = instigator.GetComponent<Rigidbody2D>();
                                         force.Set(h.attackerKnockback.x * -atkDir, h.attackerKnockback.y);
-                                        if(rb) rb.AddForce(force * Time.fixedDeltaTime);
+                                        if(irb) irb.AddForce(force * Time.fixedDeltaTime, ForceMode2D.Impulse);
                                     }
 
                                     // Apply knockback to damaged target.
@@ -138,9 +142,9 @@ public class Attack2D : ScriptableObject {
                                         force.Set(h.targetKnockback.x * atkDir, h.targetKnockback.y);
                                         if(p) {
                                             float diff = p.transform.position.x - instigator.transform.position.x;
-                                            if(rb) rb.AddForce(force * Time.fixedDeltaTime);
+                                            if(rb) rb.AddForce(force * Time.fixedDeltaTime, ForceMode2D.Impulse);
                                         } else
-                                            if(rb) rb.AddForce(force * Time.fixedDeltaTime);
+                                            if(rb) rb.AddForce(force * Time.fixedDeltaTime, ForceMode2D.Impulse);
                                     }
                                 }
 

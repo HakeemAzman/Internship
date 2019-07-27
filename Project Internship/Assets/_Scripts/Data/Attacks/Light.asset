@@ -19,16 +19,17 @@ MonoBehaviour:
   - index: 0
     damage: 20
     instance: 0
-    attackerKnockback: {x: 0, y: 0}
-    targetKnockback: {x: 0, y: 0}
+    attackerKnockback: {x: 400, y: 0}
+    targetKnockback: {x: 400, y: 0}
     hitStun: 0.5
-  startup: 0.2
-  active: 0.2
-  recovery: 0.2
+  startup: 0.66
+  active: 0.19
+  recovery: 0.15
   movement:
     startup: {x: 0, y: 0}
     active: {x: 0, y: 0}
     recovery: {x: 0, y: 0}
   targets:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 2048
+  priority: 0
