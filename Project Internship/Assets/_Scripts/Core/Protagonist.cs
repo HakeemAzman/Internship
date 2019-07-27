@@ -10,7 +10,8 @@ public class Protagonist : Pawn
 
     [Header("Protagonist")]
     public bool canSwitch = false;
-    Rigidbody2D rb2D;
+    public Attack2D[] attacks = new Attack2D[1];
+    protected Attack2D currentAttack;
 
     [Header("Knockback Settings")]
     public float Knockback_Amount;
@@ -22,8 +23,6 @@ public class Protagonist : Pawn
     [Header("Thief/Gladiator Animators")]
     public Animator thiefAnim;
     public Animator gladiatorAnim;
-
-    GameObject[] G_Platforms;
 
     [System.Serializable]
     public class Form {
@@ -59,8 +58,6 @@ public class Protagonist : Pawn
 
         // Apply effects of current form.
         Switch(0);
-
-        rb2D = gameObject.GetComponent<Rigidbody2D>();
     }
 
     void FixedUpdate()
@@ -91,20 +88,16 @@ public class Protagonist : Pawn
         AddMovementModifier("form_movement_modifier", forms[nextFormIndex].movementModifier);
         
         // Shows / hides the platforms.
-        if (nextForm.name == "Thief")
-        {
-            G_Platforms = GameObject.FindGameObjectsWithTag("G_Plat");
-
-            foreach (GameObject GP in G_Platforms)
-            {
-                GP.GetComponent<MeshRenderer>().enabled = false;
+        GameObject[] platforms = GameObject.FindGameObjectsWithTag("G_Plat");
+        if (nextForm.name == "Thief") {
+            foreach (GameObject GP in platforms) {
+                MeshRenderer mr = GP.GetComponent<MeshRenderer>();
+                if(mr) mr.enabled = false;
             }
-        }
-        else
-        {
-            foreach (GameObject GP in G_Platforms)
-            {
-                GP.GetComponent<MeshRenderer>().enabled = true;
+        } else {
+            foreach (GameObject GP in platforms) {
+                MeshRenderer mr = GP.GetComponent<MeshRenderer>();
+                if(mr) mr.enabled = true;
             }
         }
 
@@ -113,40 +106,24 @@ public class Protagonist : Pawn
     }
 
     #region OnTriggerEnter2D
-    private void OnTriggerEnter2D(Collider2D enter)
-    {
-        if(enter.CompareTag("Enemy"))
-        {
+    private void OnTriggerEnter2D(Collider2D enter) {
+
+        if(enter.CompareTag("Enemy")) {
             Knockback();
             Damage(1);
-        }
-
-        if(enter.CompareTag("Death"))
-        {
+        } else if(enter.CompareTag("Death")) {
             Damage(maxHealth);
-        }
-
-        if(enter.CompareTag("Gem"))
-        {
+        } else if(enter.CompareTag("Gem")) {
             Gems_Collected++;
             PlayerPrefs.SetInt("Highscore", Gems_Collected);
             Destroy(enter.gameObject);
-        }
-
-        if(enter.CompareTag("Spawner"))
-        {
+        } else if(enter.CompareTag("Spawner")) {
             Current_SpawnPoint = enter.gameObject.transform.position;
             enter.gameObject.GetComponentInChildren<Light>().color = Color.green;
             enter.gameObject.GetComponent<BoxCollider2D>().enabled = false;
-        }
-
-        if(enter.CompareTag("LoadPrev"))
-        {
+        } else if(enter.CompareTag("LoadPrev")) {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
-        }
-
-        if(enter.CompareTag("LoadNext"))
-        {
+        } else if(enter.CompareTag("LoadNext")) {
             PlayerPrefs.SetFloat("PlayerX", enter.transform.position.x);
             PlayerPrefs.SetFloat("PlayerY", enter.transform.position.y);
             PlayerPrefs.SetFloat("PlayerZ", enter.transform.position.z);
@@ -155,20 +132,17 @@ public class Protagonist : Pawn
     }
     #endregion
 
-    void Knockback()
-    {
-        if(health > 1)
-        {
+    void Knockback() {
+        if(health > 1) {
             if (isKnockbackRight)
-                rb2D.velocity = new Vector2(-Knockback_Amount, Knockback_Amount + 0.2f);
+                rigidbody.velocity = new Vector2(-Knockback_Amount, Knockback_Amount + 0.2f);
 
             if (!isKnockbackRight)
-                rb2D.velocity = new Vector2(Knockback_Amount, Knockback_Amount + 0.2f);
+                rigidbody.velocity = new Vector2(Knockback_Amount, Knockback_Amount + 0.2f);
         }
     }
 
-    void UpdateThiefAnimator()
-    {
+    void UpdateThiefAnimator() {
         float velocity = thiefAnim.GetComponentInParent<Rigidbody2D>().velocity.x;
 
         if (velocity < -0.1f) velocity = 5f;
@@ -176,12 +150,9 @@ public class Protagonist : Pawn
         thiefAnim.GetComponent<Animator>().SetFloat("forwardSpeed", velocity);
     }
     
-    void UpdateGladiatorAnimator()
-    {
+    void UpdateGladiatorAnimator() {
         float velocity = gladiatorAnim.GetComponentInParent<Rigidbody2D>().velocity.x;
-
         if (velocity < -0.1f) velocity = 1.7f;
-
         gladiatorAnim.GetComponent<Animator>().SetFloat("forwardSpeed", velocity);
     }
 }
