@@ -16,6 +16,10 @@ public class AIController : Controller {
     public float maximumPatrolDistance = 4f;
     public float detectionRange = 3f;
     public float stoppingDistance = 2f;
+    public float attackDelay = 1f;
+    public float attackDelayVariance = 1f;
+
+    Coroutine attackOrder;
 
     // Start is called before the first frame update
     void Start() {
@@ -36,7 +40,7 @@ public class AIController : Controller {
 
         if(!controlled.IsAlive()) return;
 
-        Platformer w = controlled as Platformer;
+        Pawn w = controlled as Pawn;
         float playerDist;
 
         switch(state) {
@@ -78,6 +82,8 @@ public class AIController : Controller {
                 playerDist = Vector2.Distance(transform.position, target.position);
                 if(playerDist < stoppingDistance){
                     currentMoveDirection = 0f;
+                    if(!w.GetCurrentAttack() && attackOrder == null)
+                        attackOrder = StartCoroutine(IssueAttackOrder());
                 } else if(playerDist > detectionRange) {
                     state = State.patrolling;
                 }  else {
@@ -89,5 +95,11 @@ public class AIController : Controller {
         }   
         
         w.Move(currentMoveDirection);
+    }
+
+    IEnumerator IssueAttackOrder() {
+        yield return new WaitForSeconds(attackDelay + Random.value * attackDelayVariance);
+        (controlled as Pawn).ReceiveAttackInput("Attack");
+        attackOrder = null;
     }
 }

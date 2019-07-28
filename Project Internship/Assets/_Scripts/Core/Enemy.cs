@@ -62,6 +62,21 @@ public class Enemy : Pawn {
         animator.SetTrigger("death");
     }
 
+    #region Attack Functionality. Refer to Pawn for full implementation.
+    public override void OnAttackStartup(MonoBehaviour instigator, Collider2D[] hitboxes, Quaternion direction, float attackSpeed) {
+        rigidbody.velocity = Vector2.zero;
+        animator.SetTrigger("attack");
+    }
+
+    public override void OnAttackActive(MonoBehaviour instigator, Collider2D[] hitboxes, Quaternion direction, float attackSpeed) {
+        hitboxes[0].enabled = true;
+    }
+
+    public override void OnAttackRecovery(MonoBehaviour instigator, Collider2D[] hitboxes, Quaternion direction, float attackSpeed) {
+        hitboxes[0].enabled = false;
+    }
+    #endregion
+
     /*
     private void OnTriggerEnter2D(Collider2D enter) {
 

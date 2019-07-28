@@ -11,12 +11,6 @@ public class Protagonist : Pawn {
 
     [Header("Protagonist")]
     public bool canSwitch = false;
-    public Attack2D[] attacks = new Attack2D[1];
-    public Collider2D[] hitboxes = new Collider2D[1];
-    protected Attack2D currentAttack;
-
-    // Container for <attacks>. Easier to access since its a name to attack pairing.
-    readonly Dictionary<string,Attack2D> attackData = new Dictionary<string, Attack2D>();
 
     [Header("Knockback Settings")]
     public float Knockback_Amount;
@@ -58,16 +52,6 @@ public class Protagonist : Pawn {
     void Start() {
         Init();
 
-        // Populate the <attackData> variable, and arm its events.
-        for(int i = 0; i < attacks.Length; i++) {
-            attackData.Add(attacks[i].name, attacks[i]);
-            attacks[i].onStartup = OnAttackStartup;
-            attacks[i].onActive = OnAttackActive;
-            attacks[i].onRecovery = OnAttackRecovery;
-            attacks[i].onEnd = OnAttackEnded;
-            attacks[i].onDamage = OnAttackDamage;
-        }
-
         // Set the current form. If the <forms> array is not set, show an error.
         if(forms == null) Debug.LogError("Please reset the Protagonist component to fill in the Forms field.");
 
@@ -75,62 +59,25 @@ public class Protagonist : Pawn {
         Switch(0);
     }
 
-    public override float Move(float dir = 0) {
-        // Do not allow movement if we are currently attacking.
-        if(currentAttack) return 0;
-        return base.Move(dir);
-    }
-
-    #region Attack Functionality
-    // Executes the attack.
-    public void Attack(Attack2D atk) {
-        if(currentMovementFacing == 0)
-            Debug.LogError("Can't attack because there is no facing direction.");
-
-        currentAttack = atk;
-        Quaternion direction = currentMovementFacing > 0 ? Quaternion.LookRotation(Vector3.right) : Quaternion.LookRotation(-Vector3.right);
-        atk.Execute(this, hitboxes, direction);
-    }
-
-    public void OnAttackStartup(MonoBehaviour instigator, Collider2D[] hitboxes, Quaternion direction, float attackSpeed) {
+    #region Attack Functionality. Refer to Pawn for full implementation.
+    public override void OnAttackStartup(MonoBehaviour instigator, Collider2D[] hitboxes, Quaternion direction, float attackSpeed) {
         gladiatorAnim.SetTrigger("attack");
     }
 
-    public void OnAttackActive(MonoBehaviour instigator, Collider2D[] hitboxes, Quaternion direction, float attackSpeed) {
+    public override void OnAttackActive(MonoBehaviour instigator, Collider2D[] hitboxes, Quaternion direction, float attackSpeed) {
         hitboxes[0].enabled = true;
     }
 
-    public void OnAttackRecovery(MonoBehaviour instigator, Collider2D[] hitboxes, Quaternion direction, float attackSpeed) {
+    public override void OnAttackRecovery(MonoBehaviour instigator, Collider2D[] hitboxes, Quaternion direction, float attackSpeed) {
         hitboxes[0].enabled = false;
-    }
-
-    public void OnAttackEnded(MonoBehaviour instigator, Collider2D[] hitboxes, Quaternion direction, float attackSpeed) {
-        currentAttack = null;
-    }
-
-    public void OnAttackDamage(int amount, MonoBehaviour target, MonoBehaviour instigator, Vector3? damageLocation) {
-        Actor a = target.GetComponent<Actor>();
-        if(a) {
-            a.Damage(amount,instigator.gameObject);
-        }
     }
 
     // Picks out the most suitable attack from a given <inputName>.
     // For PlayerController to use.
-    public void ReceiveAttackInput(string inputName) {
-
-        // Ignore this if we are not in Gladiator form.
+    public override void ReceiveAttackInput(string inputName) {
+        // Do not allow attack to happen if we are not in gladiator form.
         if(!gladiatorAnim.gameObject.activeInHierarchy) return;
-
-        Attack2D result = null;
-        int highestPriority = int.MinValue;
-        foreach(KeyValuePair<string,Attack2D> data in attackData) {
-            if(data.Value.inputName.Contains(inputName) && data.Value.priority > highestPriority) {
-                result = data.Value;
-                highestPriority = data.Value.priority;
-            }
-        }
-        Attack(result);
+        base.ReceiveAttackInput(inputName);
     }
     #endregion
 
