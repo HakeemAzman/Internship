@@ -61,9 +61,11 @@ public class Protagonist : Pawn {
         // Populate the <attackData> variable, and arm its events.
         for(int i = 0; i < attacks.Length; i++) {
             attackData.Add(attacks[i].name, attacks[i]);
-            attacks[i].onStartup += OnAttackStartup;
-            attacks[i].onEnd += OnAttackEnded;
-            attacks[i].onDamage += OnAttackDamage;
+            attacks[i].onStartup = OnAttackStartup;
+            attacks[i].onActive = OnAttackActive;
+            attacks[i].onRecovery = OnAttackRecovery;
+            attacks[i].onEnd = OnAttackEnded;
+            attacks[i].onDamage = OnAttackDamage;
         }
 
         // Set the current form. If the <forms> array is not set, show an error.
@@ -94,12 +96,23 @@ public class Protagonist : Pawn {
         gladiatorAnim.SetTrigger("attack");
     }
 
+    public void OnAttackActive(MonoBehaviour instigator, Collider2D[] hitboxes, Quaternion direction, float attackSpeed) {
+        hitboxes[0].enabled = true;
+    }
+
+    public void OnAttackRecovery(MonoBehaviour instigator, Collider2D[] hitboxes, Quaternion direction, float attackSpeed) {
+        hitboxes[0].enabled = false;
+    }
+
     public void OnAttackEnded(MonoBehaviour instigator, Collider2D[] hitboxes, Quaternion direction, float attackSpeed) {
         currentAttack = null;
     }
 
     public void OnAttackDamage(int amount, MonoBehaviour target, MonoBehaviour instigator, Vector3? damageLocation) {
-        Destroy(target.gameObject, 0.5f);
+        Actor a = target.GetComponent<Actor>();
+        if(a) {
+            a.Damage(amount,instigator.gameObject);
+        }
     }
 
     // Picks out the most suitable attack from a given <inputName>.
@@ -123,7 +136,6 @@ public class Protagonist : Pawn {
 
     void FixedUpdate() {
         UpdateInAir();
-        Debug.Log(rigidbody.velocity);
         // The conditions prevent the code from updating the animator if GameObject is inactive.
         if(thiefAnim.gameObject.activeInHierarchy) UpdateThiefAnimator();
         else if(gladiatorAnim.gameObject.activeInHierarchy) UpdateGladiatorAnimator();

@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : Actor
-{
+public class Enemy : Pawn {
+    /*
     [Header("Moving Settings")]
     public bool isMovable;
     public float Movement_Speed, Ray_Distance;
@@ -41,20 +41,37 @@ public class Enemy : Actor
                 }
             }
         }
+    } */
+
+    void Start() {
+        Init();
+        animator = GetComponentInChildren<Animator>();
     }
 
-    private void OnTriggerEnter2D(Collider2D enter)
-    {
-        var player = enter.gameObject.GetComponent<Protagonist>();
+    void FixedUpdate() {
+        UpdateInAir();
+
+        float vx = rigidbody.velocity.x;
+        if (vx < -0.1f) vx = 5f;
+        animator.SetFloat("forwardSpeed", vx);
+        animator.SetBool("isGrounded",inAir);
+    }
+
+    public override void Death(GameObject instigator = null) {
+        base.Death(instigator);
+        animator.SetTrigger("death");
+    }
+
+    /*
+    private void OnTriggerEnter2D(Collider2D enter) {
+
+        Protagonist player = enter.gameObject.GetComponent<Protagonist>();
        
-        if (enter.gameObject.tag == "Player")
-        {
-            if (enter.transform.position.x < transform.position.x)
-            {
+        if (enter.gameObject.tag == "Player"){
+            if (enter.transform.position.x < transform.position.x) {
                 enter.gameObject.GetComponent<Protagonist>().isKnockbackRight = true;
-            }
-            else
+            } else
                 enter.gameObject.GetComponent<Protagonist>().isKnockbackRight = false;
         }
-    }
+    }*/
 }
