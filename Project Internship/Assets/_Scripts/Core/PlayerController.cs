@@ -8,6 +8,7 @@ public class PlayerController : Controller {
     public bool disableInput = false;
     float lastMoveDirection; // Records the last horizontal movement direction for double taps.
     bool firstHorizontalPress = false;
+    public GameObject transformEffect;
 
     void Start() {
         Init();
@@ -26,6 +27,7 @@ public class PlayerController : Controller {
 
         if (Input.GetButtonDown("Switch")) {
             Protagonist p = controlled as Protagonist;
+            StartCoroutine(Effect());
             if(p) p.Switch();
         }
 
@@ -119,6 +121,13 @@ public class PlayerController : Controller {
         }
 
         return true;
+    }
+
+    IEnumerator Effect()
+    {
+        transformEffect.SetActive(true);
+        yield return new WaitForSeconds(6f);
+        transformEffect.SetActive(false);
     }
 
 }

@@ -29,6 +29,7 @@ public abstract class Pawn : Platformer {
         for(int i = 0; i < attacks.Length; i++) {
             if(!attacks[i]) continue;
             attackData.Add(attacks[i].name, attacks[i]);
+
             attacks[i].onStartup = OnAttackStartup;
             attacks[i].onActive = OnAttackActive;
             attacks[i].onRecovery = OnAttackRecovery;
@@ -58,6 +59,7 @@ public abstract class Pawn : Platformer {
     public virtual void OnAttackEnded(MonoBehaviour instigator, Collider2D[] hitboxes, Quaternion direction, float attackSpeed) {
         currentAttack = null;
     }
+
     public virtual void OnAttackDamage(int amount, MonoBehaviour target, MonoBehaviour instigator, Vector3? damageLocation) {
         Actor a = target.GetComponent<Actor>();
         if(a) {

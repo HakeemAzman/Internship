@@ -38,7 +38,6 @@ public class Attack2D : ScriptableObject {
 
     public virtual bool Execute(MonoBehaviour instigator, Collider2D[] hitboxes, Quaternion direction, float attackSpeed = 1f) {
         if(hitboxes.Length <= 0) return false;
-
         instigator.StartCoroutine(PhaseControl(instigator, hitboxes, direction, attackSpeed));
         return true;
     }
