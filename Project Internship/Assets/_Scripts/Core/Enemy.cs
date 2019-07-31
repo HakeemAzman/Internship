@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemy : Pawn {
+    [SerializeField] bool isSpike;
+
     /*
     [Header("Moving Settings")]
     public bool isMovable;
@@ -51,10 +53,13 @@ public class Enemy : Pawn {
     void FixedUpdate() {
         UpdateInAir();
 
-        float vx = rigidbody.velocity.x;
-        if (vx < -0.1f) vx = 5f;
-        animator.SetFloat("forwardSpeed", vx);
-        animator.SetBool("isGrounded",inAir);
+        if(!isSpike)
+        {
+            float vx = rigidbody.velocity.x;
+            if (vx < -0.1f) vx = 5f;
+            animator.SetFloat("forwardSpeed", vx);
+            animator.SetBool("isGrounded", inAir);
+        }
     }
 
     public override void Death(GameObject instigator = null) {

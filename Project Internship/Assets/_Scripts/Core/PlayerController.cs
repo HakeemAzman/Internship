@@ -27,7 +27,7 @@ public class PlayerController : Controller {
 
         if (Input.GetButtonDown("Switch")) {
             Protagonist p = controlled as Protagonist;
-            StartCoroutine(Effect());
+            TransformEffect();
             if(p) p.Switch();
         }
 
@@ -121,6 +121,14 @@ public class PlayerController : Controller {
         }
 
         return true;
+    }
+
+
+    void TransformEffect()
+    {
+        ParticleSystem ps = GetComponentInChildren<ParticleSystem>();
+        ps.Stop();
+        ps.Play();
     }
 
     IEnumerator Effect()
