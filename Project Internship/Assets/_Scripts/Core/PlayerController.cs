@@ -8,10 +8,12 @@ public class PlayerController : Controller {
     public bool disableInput = false;
     float lastMoveDirection; // Records the last horizontal movement direction for double taps.
     bool firstHorizontalPress = false;
-    public GameObject transformEffect;
+    AudioSource audio;
+    [SerializeField] AudioClip transfromEffectSound;
 
     void Start() {
         Init();
+        audio = GetComponent<AudioSource>();
     }
 
     void Reset() {
@@ -28,18 +30,25 @@ public class PlayerController : Controller {
         if (Input.GetButtonDown("Switch")) {
             Protagonist p = controlled as Protagonist;
             TransformEffect();
+            audio.PlayOneShot(transfromEffectSound);
             if(p) p.Switch();
         }
 
-        if(Input.GetButtonDown("Jump")) {
+        if(Input.GetButtonDown("Jump") && !c.InAir())
+        {
             c.Jump();
+            pScript.thiefAnim.SetTrigger("Jump");
+ 
         } else if (Input.GetButtonUp("Jump")) {
+
             //If the player hasn't reached the peak of their jump yet
             Rigidbody2D rb = controlled.GetComponent<Rigidbody2D>();
             if (rb.velocity.y > 0) {
+                pScript.thiefAnim.SetBool("isJumping", false);
                 //Cut vertical velocity by half
                 rb.velocity = new Vector2 (rb.velocity.x, rb.velocity.y * 0.5f);
             }
+                      
         }
 
         float moveDir = Input.GetAxis("Horizontal");
@@ -55,7 +64,6 @@ public class PlayerController : Controller {
                 { // Double tap detected.
                     moveDir = Mathf.Sign(moveDir) * 2;
                 }
-
             }
         } else firstHorizontalPress = false;
         c.Move(moveDir);
@@ -130,12 +138,4 @@ public class PlayerController : Controller {
         ps.Stop();
         ps.Play();
     }
-
-    IEnumerator Effect()
-    {
-        transformEffect.SetActive(true);
-        yield return new WaitForSeconds(6f);
-        transformEffect.SetActive(false);
-    }
-
 }

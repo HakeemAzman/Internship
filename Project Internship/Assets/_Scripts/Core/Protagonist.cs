@@ -23,6 +23,9 @@ public class Protagonist : Pawn {
     public Animator thiefAnim;
     public Animator gladiatorAnim;
 
+    [Header("Audio Settings")]
+    public AudioClip gemCollected;
+
     [System.Serializable]
     public class Form {
         public string name;
@@ -142,6 +145,7 @@ public class Protagonist : Pawn {
             Damage(maxHealth);
         } else if(enter.CompareTag("Gem")) {
             gemsCollected++;
+            gameObject.GetComponent<AudioSource>().PlayOneShot(gemCollected);
             PlayerPrefs.SetInt("Highscore", gemsCollected);
             Destroy(enter.gameObject);
         } else if(enter.CompareTag("Spawner")) {
@@ -173,7 +177,6 @@ public class Protagonist : Pawn {
         float vx = rigidbody.velocity.x;
         if (vx < -0.1f) vx = 5f;
         thiefAnim.SetFloat("forwardSpeed", vx);
-        thiefAnim.SetBool("isGrounded",inAir);
     }
     
     void UpdateGladiatorAnimator() {
