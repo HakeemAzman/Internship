@@ -28,8 +28,12 @@ public abstract class Pawn : Platformer {
         // Populate the <attackData> variable, and arm its events.
         for(int i = 0; i < attacks.Length; i++) {
             if(!attacks[i]) continue;
-            attackData.Add(attacks[i].name, attacks[i]);
+            if(attackData.ContainsKey(attacks[i].name)) {
+                Debug.LogWarning("Attack array contains multiple attacks with the same name!");
+                continue;
+            }
 
+            attackData.Add(attacks[i].name, attacks[i]);
             attacks[i].onStartup = OnAttackStartup;
             attacks[i].onActive = OnAttackActive;
             attacks[i].onRecovery = OnAttackRecovery;

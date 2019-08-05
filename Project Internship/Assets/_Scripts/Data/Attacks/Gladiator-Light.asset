@@ -16,7 +16,7 @@ MonoBehaviour:
   inputName:
   - Attack-Light
   hitboxData:
-  - index: 2
+  - index: 0
     damage: 20
     instance: 0
     attackerKnockback: {x: 100, y: 0}

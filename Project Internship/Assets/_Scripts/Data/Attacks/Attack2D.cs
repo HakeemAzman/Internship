@@ -93,6 +93,11 @@ public class Attack2D : ScriptableObject {
             
             foreach(HitboxData h in hitboxData) {
                 
+                if(h.index >= hitboxes.Length) {
+                    Debug.LogError("Attack2D: Invalid HitboxData.index value. Too high!");
+                    continue;
+                }
+
                 // Log an error message if a hitbox is not assigned.
                 if(hitboxes[h.index] == null) {
                     Debug.LogError(string.Format("No hitbox assigned to {0} for {1}.", name, instigator.gameObject.name));

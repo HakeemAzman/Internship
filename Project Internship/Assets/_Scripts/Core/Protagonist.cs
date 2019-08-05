@@ -11,6 +11,9 @@ public class Protagonist : Pawn {
 
     [Header("Protagonist")]
     public bool canSwitch = false;
+    new AudioSource audio;
+    ParticleSystem transformParticleSystem;
+    [SerializeField] AudioClip transformEffectClip;
 
     [Header("Knockback Settings")]
     public float Knockback_Amount;
@@ -55,11 +58,15 @@ public class Protagonist : Pawn {
     void Start() {
         Init();
 
+        // Get AudioSource and ParticleSystem components.
+        audio = GetComponent<AudioSource>();
+        transformParticleSystem = GetComponentInChildren<ParticleSystem>();
+
         // Set the current form. If the <forms> array is not set, show an error.
         if(forms == null) Debug.LogError("Please reset the Protagonist component to fill in the Forms field.");
 
         // Apply effects of current form.
-        Switch(0);
+        Switch(0,false);
     }
 
     #region Attack Functionality. Refer to Pawn for full implementation.
@@ -91,9 +98,13 @@ public class Protagonist : Pawn {
         else if(gladiatorAnim.gameObject.activeInHierarchy) UpdateGladiatorAnimator();
     }
 
-    public virtual int Switch(int formIndex = -1) {
+    public virtual int Switch(int formIndex = -1, bool playEffect = true) {
         
         if(!canSwitch) return currentFormIndex;
+
+        // Moved here from player controller. Plays the particle effect for switching.
+        if(playEffect) PlayTransformEffect();
+        audio.PlayOneShot(transformEffectClip);
 
         int nextFormIndex = formIndex;
         if(nextFormIndex == -1)
@@ -133,6 +144,14 @@ public class Protagonist : Pawn {
     public override void Death(GameObject instigator = null) {
         //base.Death(instigator);
         transform.position = currentSpawnPoint;
+    }
+
+    public override bool Jump(float jumpStr = 0) {
+        if(base.Jump(jumpStr) && thiefAnim.isActiveAndEnabled) {
+            thiefAnim.SetTrigger("jump");
+            return true;
+        } 
+        return false;
     }
 
     #region OnTriggerEnter2D
@@ -177,11 +196,18 @@ public class Protagonist : Pawn {
         float vx = rigidbody.velocity.x;
         if (vx < -0.1f) vx = 5f;
         thiefAnim.SetFloat("forwardSpeed", vx);
+        thiefAnim.SetBool("inAir", inAir); // Tracks whether the thief is in air.
     }
     
     void UpdateGladiatorAnimator() {
         float vx = rigidbody.velocity.x;
         if (vx < -0.1f) vx = 1.7f;
         gladiatorAnim.SetFloat("forwardSpeed", vx);
+    }
+
+    void PlayTransformEffect() {
+        ParticleSystem ps = GetComponentInChildren<ParticleSystem>();
+        ps.Stop();
+        ps.Play();
     }
 }
