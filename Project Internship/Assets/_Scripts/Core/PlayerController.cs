@@ -7,7 +7,7 @@ public class PlayerController : Controller {
     public float doubleTapWindow = 0.5f;
     public bool disableInput = false;
     float lastMoveDirection; // Records the last horizontal movement direction for double taps.
-    bool firstHorizontalPress = false;
+    public bool firstHorizontalPress = false;
 
     void Start() {
         Init();

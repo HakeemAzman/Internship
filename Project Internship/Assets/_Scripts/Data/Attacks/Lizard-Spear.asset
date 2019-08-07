@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70071b20e3bae544697d34ec247dbf08, type: 3}
   m_Name: Lizard-Spear
   m_EditorClassIdentifier: 
-  name: Spear Attack
+  name: Spear-Attack
   inputName:
   - Attack
   hitboxData:

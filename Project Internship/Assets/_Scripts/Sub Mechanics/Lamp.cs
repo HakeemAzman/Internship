@@ -17,9 +17,16 @@ public class Lamp : MonoBehaviour
     float r = 255f, g = 128f, b = 124f;
     
     public PlayerController pc;
+    
     //FF807C
     #endregion
-        
+
+    private void Start()
+    {
+        FindObjectOfType<SoundManager>().Play("WindSFX");
+        FindObjectOfType<SoundManager>().Play("BatsSFX");
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.gameObject.tag == "Player")
@@ -33,6 +40,9 @@ public class Lamp : MonoBehaviour
     IEnumerator StartFirstCutscene()
     {
         Start_Cutscene.SetActive(true);
+        GetComponent<AudioSource>().enabled = false;
+        FindObjectOfType<SoundManager>().Play("DangerSFX");
+        FindObjectOfType<SoundManager>().Play("RumblingSFX");
         lamp.GetComponent<MeshRenderer>().enabled = false;
         Spotlight_lamp.gameObject.GetComponent<Light>().color = Color.red;
 
@@ -57,7 +67,8 @@ public class Lamp : MonoBehaviour
         hidden_door.gameObject.GetComponent<Animator>().Play(hiddenDoorMove);
 
         yield return new WaitForSeconds(2f);
-
+        
+        FindObjectOfType<SoundManager>().Stop("RumblingSFX");
         pc.GetComponent<PlayerController>().disableInput = false;
         Destroy(this.gameObject);
     }

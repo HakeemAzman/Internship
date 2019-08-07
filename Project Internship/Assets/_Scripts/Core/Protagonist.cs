@@ -4,8 +4,8 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Protagonist : Pawn {
-
+public class Protagonist : Pawn
+{    
     [Header("Score")]
     [SerializeField] static int gemsCollected;
 
@@ -26,8 +26,8 @@ public class Protagonist : Pawn {
     public Animator thiefAnim;
     public Animator gladiatorAnim;
 
-    [Header("Audio Settings")]
-    public AudioClip gemCollected;
+
+    PlayerController pc;
 
     [System.Serializable]
     public class Form {
@@ -67,6 +67,8 @@ public class Protagonist : Pawn {
 
         // Apply effects of current form.
         Switch(0,false);
+
+        pc = GetComponent<PlayerController>();
     }
 
     #region Attack Functionality. Refer to Pawn for full implementation.
@@ -96,7 +98,7 @@ public class Protagonist : Pawn {
         // The conditions prevent the code from updating the animator if GameObject is inactive.
         if(thiefAnim.gameObject.activeInHierarchy) UpdateThiefAnimator();
         else if(gladiatorAnim.gameObject.activeInHierarchy) UpdateGladiatorAnimator();
-    }
+}
 
     public virtual int Switch(int formIndex = -1, bool playEffect = true) {
         
@@ -149,6 +151,7 @@ public class Protagonist : Pawn {
     public override bool Jump(float jumpStr = 0) {
         if(base.Jump(jumpStr) && thiefAnim.isActiveAndEnabled) {
             thiefAnim.SetTrigger("jump");
+            FindObjectOfType<SoundManager>().Play("JumpingSFX");
             return true;
         } 
         return false;
@@ -164,11 +167,12 @@ public class Protagonist : Pawn {
             Damage(maxHealth);
         } else if(enter.CompareTag("Gem")) {
             gemsCollected++;
-            gameObject.GetComponent<AudioSource>().PlayOneShot(gemCollected);
+            FindObjectOfType<SoundManager>().Play("GemCollectedSFX");
             PlayerPrefs.SetInt("Highscore", gemsCollected);
             Destroy(enter.gameObject);
         } else if(enter.CompareTag("Spawner")) {
             currentSpawnPoint = enter.gameObject.transform.position;
+            FindObjectOfType<SoundManager>().Play("CheckpointCheckedSFX");
             enter.gameObject.GetComponentInChildren<Light>().color = Color.green;
             enter.gameObject.GetComponent<BoxCollider2D>().enabled = false;
         } else if(enter.CompareTag("LoadPrev")) {
