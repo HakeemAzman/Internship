@@ -6,6 +6,8 @@ public class SoundManager : MonoBehaviour
 {
     public AudioClips[] clips;
 
+    [SerializeField] string backgroundMusic;
+
     public static SoundManager instance;
 
     public bool dontDestroyOnLoad = false;
@@ -36,6 +38,11 @@ public class SoundManager : MonoBehaviour
            ac.audioSource.pitch = ac.pitch;
            ac.audioSource.loop = ac.loop;
         }
+    }
+
+    private void Start()
+    {
+        Play(backgroundMusic);
     }
 
     public void Play(string name)
