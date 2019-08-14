@@ -15099,7 +15099,7 @@ PrefabInstance:
     - target: {fileID: 4806153831740171035, guid: f7c3a727d22cdc140b78ec405a87c03e,
         type: 3}
       propertyPath: clips.Array.size
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4806153831740171035, guid: f7c3a727d22cdc140b78ec405a87c03e,
         type: 3}
@@ -15109,7 +15109,7 @@ PrefabInstance:
     - target: {fileID: 4806153831740171035, guid: f7c3a727d22cdc140b78ec405a87c03e,
         type: 3}
       propertyPath: dontDestroyOnLoad
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4806153831740171035, guid: f7c3a727d22cdc140b78ec405a87c03e,
         type: 3}
@@ -15135,6 +15135,76 @@ PrefabInstance:
         type: 3}
       propertyPath: backgroundMusic
       value: Cave BGM
+      objectReference: {fileID: 0}
+    - target: {fileID: 4806153831740171035, guid: f7c3a727d22cdc140b78ec405a87c03e,
+        type: 3}
+      propertyPath: clips.Array.data[1].name
+      value: JumpingSFX
+      objectReference: {fileID: 0}
+    - target: {fileID: 4806153831740171035, guid: f7c3a727d22cdc140b78ec405a87c03e,
+        type: 3}
+      propertyPath: clips.Array.data[1].audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 7663ff58ad848d44ca6006715941894b, type: 3}
+    - target: {fileID: 4806153831740171035, guid: f7c3a727d22cdc140b78ec405a87c03e,
+        type: 3}
+      propertyPath: clips.Array.data[1].volume
+      value: 0.17
+      objectReference: {fileID: 0}
+    - target: {fileID: 4806153831740171035, guid: f7c3a727d22cdc140b78ec405a87c03e,
+        type: 3}
+      propertyPath: clips.Array.data[1].pitch
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4806153831740171035, guid: f7c3a727d22cdc140b78ec405a87c03e,
+        type: 3}
+      propertyPath: clips.Array.data[1].loop
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4806153831740171035, guid: f7c3a727d22cdc140b78ec405a87c03e,
+        type: 3}
+      propertyPath: clips.Array.data[2].name
+      value: GemCollectedSFX
+      objectReference: {fileID: 0}
+    - target: {fileID: 4806153831740171035, guid: f7c3a727d22cdc140b78ec405a87c03e,
+        type: 3}
+      propertyPath: clips.Array.data[2].audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: a219488069058ae49aadc442807d78cc, type: 3}
+    - target: {fileID: 4806153831740171035, guid: f7c3a727d22cdc140b78ec405a87c03e,
+        type: 3}
+      propertyPath: clips.Array.data[2].volume
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4806153831740171035, guid: f7c3a727d22cdc140b78ec405a87c03e,
+        type: 3}
+      propertyPath: clips.Array.data[2].pitch
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4806153831740171035, guid: f7c3a727d22cdc140b78ec405a87c03e,
+        type: 3}
+      propertyPath: clips.Array.data[2].loop
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4806153831740171035, guid: f7c3a727d22cdc140b78ec405a87c03e,
+        type: 3}
+      propertyPath: clips.Array.data[3].name
+      value: CheckpointCheckedSFX
+      objectReference: {fileID: 0}
+    - target: {fileID: 4806153831740171035, guid: f7c3a727d22cdc140b78ec405a87c03e,
+        type: 3}
+      propertyPath: clips.Array.data[3].audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 926bdae05d6a0c645ad5b2fc15b1e5fa, type: 3}
+    - target: {fileID: 4806153831740171035, guid: f7c3a727d22cdc140b78ec405a87c03e,
+        type: 3}
+      propertyPath: clips.Array.data[3].volume
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4806153831740171035, guid: f7c3a727d22cdc140b78ec405a87c03e,
+        type: 3}
+      propertyPath: clips.Array.data[3].pitch
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f7c3a727d22cdc140b78ec405a87c03e, type: 3}
@@ -17046,6 +17116,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 11
       objectReference: {fileID: 0}
+    - target: {fileID: 100078, guid: 6684f69d0a801b743b0c385fea117a90, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 100004, guid: 6684f69d0a801b743b0c385fea117a90, type: 3}
       propertyPath: m_Layer
       value: 11
@@ -17191,10 +17265,6 @@ PrefabInstance:
       value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 100076, guid: 6684f69d0a801b743b0c385fea117a90, type: 3}
-      propertyPath: m_Layer
-      value: 11
-      objectReference: {fileID: 0}
-    - target: {fileID: 100078, guid: 6684f69d0a801b743b0c385fea117a90, type: 3}
       propertyPath: m_Layer
       value: 11
       objectReference: {fileID: 0}
@@ -62545,6 +62615,14 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 11
       objectReference: {fileID: 0}
+    - target: {fileID: 100222, guid: 5a184a64358a63340946479637552e9f, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 100224, guid: 5a184a64358a63340946479637552e9f, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 100006, guid: 5a184a64358a63340946479637552e9f, type: 3}
       propertyPath: m_Layer
       value: 11
@@ -62974,14 +63052,6 @@ PrefabInstance:
       value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 100220, guid: 5a184a64358a63340946479637552e9f, type: 3}
-      propertyPath: m_Layer
-      value: 11
-      objectReference: {fileID: 0}
-    - target: {fileID: 100222, guid: 5a184a64358a63340946479637552e9f, type: 3}
-      propertyPath: m_Layer
-      value: 11
-      objectReference: {fileID: 0}
-    - target: {fileID: 100224, guid: 5a184a64358a63340946479637552e9f, type: 3}
       propertyPath: m_Layer
       value: 11
       objectReference: {fileID: 0}

@@ -185,6 +185,7 @@ public class Protagonist : Pawn
         }
     }
     #endregion
+    
 
     void Knockback() {
         if(health > 1) {
