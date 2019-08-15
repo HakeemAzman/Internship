@@ -6,8 +6,9 @@ using UnityEngine.SceneManagement;
 
 public class Protagonist : Pawn
 {    
-    [Header("Score")]
+    [Header("Score & UI")]
     [SerializeField] static int gemsCollected;
+    [SerializeField] GameObject checkpointPanel;
 
     [Header("Protagonist")]
     public bool canSwitch = false;
@@ -171,6 +172,7 @@ public class Protagonist : Pawn
             PlayerPrefs.SetInt("Highscore", gemsCollected);
             Destroy(enter.gameObject);
         } else if(enter.CompareTag("Spawner")) {
+            checkpointPanel.SetActive(true);
             currentSpawnPoint = enter.gameObject.transform.position;
             FindObjectOfType<SoundManager>().Play("CheckpointCheckedSFX");
             enter.gameObject.GetComponentInChildren<Light>().color = Color.green;
