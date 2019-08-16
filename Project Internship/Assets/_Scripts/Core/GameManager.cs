@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
     GameObject player;
-
+    public TextMeshProUGUI scoreText;
+    
     private void Awake()
     {
         PlayerPrefs.DeleteAll();
@@ -24,6 +26,6 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        print(PlayerPrefs.GetInt("Highscore"));
+        scoreText.text = ": " + PlayerPrefs.GetInt("Highscore").ToString();
     }
 }
