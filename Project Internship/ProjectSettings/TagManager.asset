@@ -12,6 +12,7 @@ TagManager:
   - Spawner
   - LoadPrev
   - LoadNext
+  - ScoreText
   layers:
   - Default
   - TransparentFX

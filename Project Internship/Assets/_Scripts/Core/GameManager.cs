@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         PlayerPrefs.DeleteAll();
+
     }
 
     // Start is called before the first frame update
@@ -26,6 +27,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+        scoreText = GameObject.Find("Score Text").GetComponent<TextMeshProUGUI>();
         scoreText.text = ": " + PlayerPrefs.GetInt("Highscore").ToString();
     }
 }
